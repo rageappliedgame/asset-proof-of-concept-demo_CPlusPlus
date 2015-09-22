@@ -1,0 +1,22 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asset-proof-of-concept-demo_CPlusPlus", "asset-proof-of-concept-demo_CPlusPlus.vcxproj", "{29D0EF0A-5717-45D8-BD66-DE5C595B2AB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29D0EF0A-5717-45D8-BD66-DE5C595B2AB1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{29D0EF0A-5717-45D8-BD66-DE5C595B2AB1}.Debug|Win32.Build.0 = Debug|Win32
+		{29D0EF0A-5717-45D8-BD66-DE5C595B2AB1}.Release|Win32.ActiveCfg = Release|Win32
+		{29D0EF0A-5717-45D8-BD66-DE5C595B2AB1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
