@@ -13,7 +13,7 @@ using namespace rage;
 
 DialogueAsset::DialogueAsset() : BaseAsset("DialogueAsset")
 {
-    logger = dynamic_cast<Logger*>(AssetManager::getInstance().findAssetByClass("Logger"));
+    logger = dynamic_cast<Logger*>(AssetManager::getInstance()->findAssetByClass("Logger"));
 }
 
 DialogueAsset::~DialogueAsset()
@@ -36,7 +36,7 @@ void DialogueAsset::loadScript(string actor, const char* fileName)
         Dialogue dialogue;
 
         dialogue.actor = actor;
-        dialogue.next  = -1;
+        dialogue.next = -1;
 
         if (!isdigit(line[0]))
         {
@@ -93,8 +93,9 @@ Dialogue DialogueAsset::interact(string actor, string player, string response)
     bool numeric = isNumeric(response);
 
     list<Dialogue>::iterator itr;
-    itr = find_if(dialogues.begin(), dialogues.end(), [&](Dialogue& dialogue){
-                  return dialogue.actor == actor && dialogue.id == response;
+    itr = find_if(dialogues.begin(), dialogues.end(), [&](Dialogue& dialogue)
+    {
+        return dialogue.actor == actor && dialogue.id == response;
     });
 
     if (itr != dialogues.end())
@@ -111,8 +112,9 @@ Dialogue DialogueAsset::interact(string actor, string player, string response)
             list<Dialogue>::iterator itrNext;
             ostringstream strState;
             strState << state;
-            itrNext = find_if(dialogues.begin(), dialogues.end(), [&](Dialogue& dialogue){
-                          return dialogue.actor == actor && dialogue.id == strState.str();
+            itrNext = find_if(dialogues.begin(), dialogues.end(), [&](Dialogue& dialogue)
+            {
+                return dialogue.actor == actor && dialogue.id == strState.str();
             });
 
             dialogue = *itrNext;
@@ -128,8 +130,9 @@ Dialogue DialogueAsset::interact(string actor, string player, string response)
         list<Dialogue>::iterator itrCur;
         ostringstream strState;
         strState << state;
-        itrCur = find_if(dialogues.begin(), dialogues.end(), [&](Dialogue& dialogue){
-                      return dialogue.actor == actor && dialogue.id == strState.str();
+        itrCur = find_if(dialogues.begin(), dialogues.end(), [&](Dialogue& dialogue)
+        {
+            return dialogue.actor == actor && dialogue.id == strState.str();
         });
         dialogue = *itrCur;
     }
@@ -141,10 +144,12 @@ Dialogue DialogueAsset::interact(string actor, string player, string response)
         for (list<int>::iterator itr = dialogue.responses.begin(); itr != dialogue.responses.end(); ++itr)
         {
             list<Dialogue>::const_iterator answer;
-            answer = find_if(dialogues.begin(), dialogues.end(), [&itr](Dialogue& dialogue){
-                      ostringstream convert;
-                      convert << *itr;
-                      return dialogue.id == convert.str();});
+            answer = find_if(dialogues.begin(), dialogues.end(), [&itr](Dialogue& dialogue)
+            {
+                ostringstream convert;
+                convert << *itr;
+                return dialogue.id == convert.str();
+            });
             logger->log(" >> " + answer->id + ". " + answer->text);
         }
     }
@@ -160,8 +165,9 @@ Dialogue DialogueAsset::interact(string actor, string player, string response)
 int DialogueAsset::findStateIndex(string actor, string player)
 {
     list<State>::const_iterator itr;
-    itr = find_if(states.begin(), states.end(), [&](const State& state){
-                  return state.actor == actor && state.player == player;
+    itr = find_if(states.begin(), states.end(), [&](const State& state)
+    {
+        return state.actor == actor && state.player == player;
     });
     if (itr != states.end())
     {
@@ -182,8 +188,9 @@ int DialogueAsset::findStateIndex(string actor, string player)
 void DialogueAsset::updateState(string actor, string player, int p_state)
 {
     list<State>::iterator itr;
-    itr = find_if(states.begin(), states.end(), [&](State& state){
-                  return state.actor == actor && state.player == player;
+    itr = find_if(states.begin(), states.end(), [&](State& state)
+    {
+        return state.actor == actor && state.player == player;
     });
     if (itr != states.end())
     {
@@ -202,7 +209,7 @@ void DialogueAsset::updateState(string actor, string player, int p_state)
 bool DialogueAsset::isNumeric(string value)
 {
     bool isNumber = true;
-    for(string::const_iterator k = value.begin(); k != value.end(); ++k)
+    for (string::const_iterator k = value.begin(); k != value.end(); ++k)
     {
         isNumber = isNumber && isdigit(*k);
     }

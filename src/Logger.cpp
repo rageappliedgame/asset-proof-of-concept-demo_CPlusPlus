@@ -1,6 +1,7 @@
 #include <Logger.h>
 
 #include <AssetManager.h>
+#include <ILogger.h>
 
 #include <iostream>
 
@@ -9,12 +10,7 @@ using namespace rage;
 
 Logger::Logger() : BaseAsset("Logger")
 {
-    this->OnLog += new LogDelegate<Logger>(this, &Logger::doLog);
-}
-
-void Logger::log(string message)
-{
-   OnLog(message.c_str());
+    //ctor
 }
 
 Logger::~Logger()
@@ -22,10 +18,15 @@ Logger::~Logger()
     //dtor
 }
 
-void Logger::doLog(const void* message)
+void Logger::log(string message)
 {
-    if (OnLog.getInvocationList().size() == 1)
+    ILogger* logger = getInterface<ILogger>();
+    if (logger != nullptr)
     {
-        cout << "[" << this->getId() << "] " << (char*)message << endl;
+        logger->doLog(message);
+    }
+    else
+    {
+        cout << message << endl;
     }
 }

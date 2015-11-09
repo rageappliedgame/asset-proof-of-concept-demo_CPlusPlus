@@ -31,12 +31,12 @@ bool PubSub::unsubscribe(int token)
     Subscribers::iterator itrSub;
     for(TopicMap::iterator itr = topics.begin(); itr != topics.end(); ++itr)
     {
-            itrSub = itr->second.find(token);
-            if (itrSub != itr->second.end())
-            {
-                itr->second.erase(itrSub);
-                return true;
-            }
+        itrSub = itr->second.find(token);
+        if (itrSub != itr->second.end())
+        {
+            itr->second.erase(itrSub);
+            return true;
+        }
     }
 
     return false;
