@@ -65,7 +65,6 @@ int RageVersionInfo::getRevision()
 
 std::string RageVersionInfo::getVersion()
 {
-    //TODO:
     std::stringstream ss;
     ss  << this->getMajor()
         << "." << this->getMinor()

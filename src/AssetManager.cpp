@@ -1,5 +1,7 @@
 #include <AssetManager.h>
 
+#include <VersionString.h>
+
 #include <sstream>
 #include <mutex>
 #include <iostream>
@@ -156,10 +158,37 @@ std::string AssetManager::getVersionAndDependenciesReport()
         std::map<std::string, std::string>::const_iterator dit = dependencies.begin();
         for(; dit != dependencies.end(); dit++)
         {
-            report << boost::format("|%-s v%-s") % dit->first % dit->second;
+            char lvs[20], hvs[20], *p_lvs = nullptr, *p_hvs = nullptr;
+            int vcnt = sscanf(dit->second.c_str(), "%[^-]-%s", lvs, hvs);
+            if (vcnt == 1)
+            {
+                p_hvs = lvs;
+                p_lvs = lvs;
+            }
+            else if (vcnt == 2)
+            {
+                p_lvs = lvs;
+                p_hvs = hvs;
+            }
+
+            VersionString low(p_lvs);
+            VersionString hi(p_hvs);
+
+            bool found = false;
+
+            list<IAsset*> dep = AssetManager::getInstance()->findAssetsByClass(dit->first);
+            for (std::list<IAsset*>::const_iterator iterator = dep.begin(), end = dep.end(); iterator != end; ++iterator) {
+                VersionString vdep(((*iterator)->getVersion()).c_str());
+                if (low <= vdep && vdep <= hi)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            report << boost::format("|%-s v%-s [%-s]") % dit->first % dit->second % (found ? "resolved" : "missing");
             cnt++;
         }
-
 
         if (cnt == 0)
         {
@@ -167,6 +196,7 @@ std::string AssetManager::getVersionAndDependenciesReport()
         }
 
         report << endl;
+
     }
 
     return report.str();

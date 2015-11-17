@@ -17,12 +17,15 @@ BaseAsset::BaseAsset(string className)
 
 BaseAsset::BaseAsset(IBridge* bridge)
 {
+    //TODO
+    // versionInfo not initialized ...
     this->bridge = bridge;
 }
 
 BaseAsset::~BaseAsset()
 {
     AssetManager::getInstance()->unregisterAssetInstance(this->getId());
+    delete versionInfo;
 }
 
 string BaseAsset::getId()
