@@ -8,17 +8,24 @@ using namespace rage;
 
 Asset::Asset() : BaseAsset("Asset")
 {
-    //ctor
+    this->settings = new AssetSettings();
+    this->settings->setTestProperty(this->settings->getTestProperty() + " test");
+    BaseAsset::setSettings(this->settings);
 }
 
 Asset::~Asset()
 {
-    //dtor
+    delete settings;
+}
+
+void Asset::setSettings(ISettings *settings)
+{
+    this->settings = dynamic_cast<AssetSettings*>(settings);
 }
 
 void Asset::doArchive()
 {
-    IDataArchive* ds = this->template getInterface<IDataArchive>();
+    IDataArchive* ds = getInterface<IDataArchive>();
     if (ds != nullptr)
     {
         ds->Archive(this->fId2);

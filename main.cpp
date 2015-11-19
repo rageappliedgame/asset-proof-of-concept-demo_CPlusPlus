@@ -9,15 +9,12 @@
 
 #include "boost/format.hpp"
 
-#include "soap.nsmap"
-
 using namespace std;
 using namespace rage;
 
 void MyEventHandler(string topic, const char* message)
 {
     cout << boost::format("[PubSup].%1%: [%2%]") % topic % message << endl;
-    //cout << "Foo: " << message << endl;
 }
 
 Asset* asset1 = nullptr;
@@ -61,14 +58,13 @@ void test_02_VersionAndDependenciesReport()
     std::map<std::string, std::string> dependencies = asset1->getDependencies();
 
     std::map<std::string, std::string>::const_iterator it = dependencies.begin();
-    for(; it != dependencies.end(); it++)
+    for(; it != dependencies.end(); ++it)
     {
         cout << boost::format("Depends on %1% v%2%") % it->first % it->second << endl;
     }
 
     cout << endl;
 
-    //TODO:
     cout << AssetManager::getInstance()->getVersionAndDependenciesReport() << endl;
 
     cout << boost::format("Version: v%1%") % asset1->getVersion() << endl;
@@ -216,6 +212,43 @@ void test_07_DialogueAsset()
     cout << endl;
 }
 
+void test_08_Settings()
+{
+    //script.dialogueText.text = asset1.DefaultSettings.Count.ToString();//["NewKey0"].;
+
+
+    //! Log Default Settings
+    cout << asset1->settingsToXml() << endl;
+
+    //! Log Default Settings
+    asset2->setBridge(bridge1);
+    cout << asset2->settingsToXml() << endl;
+
+    //! Save App Default Settings if not present (and Settings is not null).
+    asset2->saveDefaultSettings(false);
+
+    //! Load App Default Settings if present (and Settings is not null).
+    asset2->loadDefaultSettings();
+    cout << asset2->settingsToXml() << endl;
+
+    //! Try Saving an Asset with No Settings (null)
+    if (asset3->hasSettings())
+    {
+        asset3->saveDefaultSettings(false);
+
+        cout << asset3->settingsToXml() << endl;
+    }
+
+    //! Save Runtime Settings
+    asset2->saveSettings("runtime-settings.xml");
+
+    //! Load Runtime Settings.
+    asset1->setBridge(bridge1);
+    asset1->loadSettings("runtime-settings.xml");
+
+    cout << asset1->settingsToXml() << endl;
+}
+
 int main()
 {
     cout << "DirectorySeparatorChar:" << PATH_SEPARATOR << endl;
@@ -234,8 +267,7 @@ int main()
 
     test_07_DialogueAsset();
 
-    //test_08_Settings();
-
+    test_08_Settings();
 
     std::cout << "Press Enter to continue...";
     std::cin.ignore();

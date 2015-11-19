@@ -28,11 +28,6 @@ Bridge::Bridge(const char *prefix)
     this->prefix = prefix;
 }
 
-Bridge::~Bridge()
-{
-    //dtor
-}
-
 std::string Bridge::getPrefix()
 {
     return this->prefix;
@@ -140,4 +135,27 @@ bool Bridge::Archive(const std::string& name)
         return true;
     }
     return false;
+}
+
+std::string Bridge::deriveAssetName(std::string clazz, std::string id)
+{
+    return (boost::format("%1%AppSettings.xml") % clazz).str();
+}
+
+bool Bridge::hasDefaultSettings(const std::string& clazz, const std::string& id)
+{
+    std::string fileName = deriveAssetName(clazz, id);
+    return Exists(fileName);
+}
+
+std::string Bridge::loadDefaultSettings(const std::string& clazz, const std::string& id)
+{
+    std::string fileName = deriveAssetName(clazz, id);
+    return Load(fileName);
+}
+
+void Bridge::saveDefaultSettings(const std::string& clazz, const std::string& id, const std::string& fileData)
+{
+    std::string fileName = deriveAssetName(clazz, id);
+    Save(fileName, fileData);
 }

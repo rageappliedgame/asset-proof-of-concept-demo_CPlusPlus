@@ -1,10 +1,11 @@
 #ifndef IASSET_H
 #define IASSET_H
 
-#include <string>
-#include <map>
 #include <ISettings.h>
 #include <IBridge.h>
+
+#include <string>
+#include <map>
 
 namespace rage
 {

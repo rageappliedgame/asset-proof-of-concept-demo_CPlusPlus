@@ -16,11 +16,6 @@ DialogueAsset::DialogueAsset() : BaseAsset("DialogueAsset")
     logger = dynamic_cast<Logger*>(AssetManager::getInstance()->findAssetByClass("Logger"));
 }
 
-DialogueAsset::~DialogueAsset()
-{
-    //dtor
-}
-
 void DialogueAsset::loadScript(string actor, const char* fileName)
 {
     ifstream file(fileName);

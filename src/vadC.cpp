@@ -17,6 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 
 #include "vadH.h"
+#include "soap.nsmap"
 
 SOAP_SOURCE_STAMP("@(#) vadC.cpp ver 2.8.24 2015-11-05 15:49:18 GMT")
 

@@ -12,16 +12,24 @@ namespace rage
 class BaseAsset : public IAsset
 {
 public:
-    BaseAsset(std::string className);
-    BaseAsset(IBridge* bridge);
+    explicit BaseAsset(std::string className);
     virtual ~BaseAsset();
-    virtual std::string getClassName();
-    virtual std::string getId();
-    virtual std::map<std::string, std::string> getDependencies();
-    virtual std::string getMaturity();
-    virtual std::string getVersion();
-    virtual IBridge* getBridge();
-    virtual void setBridge(IBridge* bridge);
+    std::string getClassName();
+    std::string getId();
+    std::map<std::string, std::string> getDependencies();
+    std::string getMaturity();
+    std::string getVersion();
+    bool hasSettings();
+    ISettings* getSettings();
+    virtual void setSettings(ISettings* settings);
+    bool loadDefaultSettings();
+    bool loadSettings(std::string fileName);
+    bool saveDefaultSettings(bool force);
+    bool saveSettings(std::string fileName);
+    ISettings* settingsFromXml(std::string xml);
+    std::string settingsToXml();
+    IBridge* getBridge();
+    void setBridge(IBridge* bridge);
 protected:
     template<class Interface>
     Interface* getInterface()
@@ -41,8 +49,9 @@ protected:
 private:
     std::string className;
     std::string id;
-    RageVersionInfo *versionInfo;
-    IBridge *bridge;
+    RageVersionInfo *versionInfo = nullptr;
+    IBridge *bridge = nullptr;
+    ISettings* settings = nullptr;
 
 };
 }

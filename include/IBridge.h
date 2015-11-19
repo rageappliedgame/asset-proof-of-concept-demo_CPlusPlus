@@ -9,4 +9,5 @@ public:
     virtual ~IBridge() {}
 };
 }
+
 #endif // IBRIDGE_H

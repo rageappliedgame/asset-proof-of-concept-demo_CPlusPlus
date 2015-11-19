@@ -26,7 +26,7 @@ class DialogueAsset : public BaseAsset
 {
 public:
     DialogueAsset();
-    virtual ~DialogueAsset();
+    virtual ~DialogueAsset(){};
     Dialogue interact(std::string actor, std::string player, int response);
     Dialogue interact(std::string actor, std::string player, std::string response = "");
     void loadScript(std::string actor, const char* fileName);

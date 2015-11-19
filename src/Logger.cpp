@@ -13,11 +13,6 @@ Logger::Logger() : BaseAsset("Logger")
     //ctor
 }
 
-Logger::~Logger()
-{
-    //dtor
-}
-
 void Logger::log(string message)
 {
     ILogger* logger = getInterface<ILogger>();

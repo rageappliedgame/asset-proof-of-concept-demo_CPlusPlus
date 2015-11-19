@@ -39,7 +39,7 @@ private:
     AssetManager(const AssetManager&);
     std::map<std::string, IAsset*> assets;
     int idGenerator;
-    IBridge* bridge;
+    IBridge* bridge = nullptr;
 };
 }
 

@@ -156,7 +156,7 @@ std::string AssetManager::getVersionAndDependenciesReport()
 
         std::map<std::string, std::string> dependencies = itr->second->getDependencies();
         std::map<std::string, std::string>::const_iterator dit = dependencies.begin();
-        for(; dit != dependencies.end(); dit++)
+        for(; dit != dependencies.end(); ++dit)
         {
             char lvs[20], hvs[20], *p_lvs = nullptr, *p_hvs = nullptr;
             int vcnt = sscanf(dit->second.c_str(), "%[^-]-%s", lvs, hvs);
@@ -177,7 +177,8 @@ std::string AssetManager::getVersionAndDependenciesReport()
             bool found = false;
 
             list<IAsset*> dep = AssetManager::getInstance()->findAssetsByClass(dit->first);
-            for (std::list<IAsset*>::const_iterator iterator = dep.begin(), end = dep.end(); iterator != end; ++iterator) {
+            for (std::list<IAsset*>::const_iterator iterator = dep.begin(), end = dep.end(); iterator != end; ++iterator)
+            {
                 VersionString vdep(((*iterator)->getVersion()).c_str());
                 if (low <= vdep && vdep <= hi)
                 {

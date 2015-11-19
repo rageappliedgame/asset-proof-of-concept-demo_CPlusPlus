@@ -57,7 +57,7 @@ public:
 
 private:
     PubSub() : subUId(1) {};
-    ~PubSub();
+    ~PubSub(){};
     PubSub(const PubSub&);
     const PubSub& operator=(const PubSub&);
     typedef std::map<int, Callback> Subscribers;

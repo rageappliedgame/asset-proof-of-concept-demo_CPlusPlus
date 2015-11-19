@@ -49,7 +49,7 @@ class RageVersionInfo
 {
 public:
     RageVersionInfo();
-    virtual ~RageVersionInfo();
+    virtual ~RageVersionInfo(){};
     std::string getId();
     void setId(std::string id);
     int getMajor();
@@ -69,7 +69,6 @@ public:
     void LoadVersionInfo(const std::string& strXMLPath);
     //std::string SaveVersionInfo(struct soap& soap, version& v, const std::string& strXMLPath);
     std::string SaveVersionInfo(const std::string& strXMLPath);
-protected:
 private:
     struct soap soap;
     version v;
@@ -77,4 +76,5 @@ private:
 };
 
 }
+
 #endif // RAGEVERSIONINFO_H

@@ -9,8 +9,8 @@ class Logger : public BaseAsset
 {
 public:
     Logger();
-    virtual ~Logger();
-    virtual void log(std::string message);
+    virtual ~Logger(){};
+    void log(std::string message);
 private:
     void doLog(const void* message);
 };

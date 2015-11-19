@@ -1,7 +1,9 @@
 #include "VersionString.h"
 
 #include <iostream>
+
 using namespace std;
+using namespace rage;
 
 VersionString::VersionString(const char *version)
 {
@@ -15,11 +17,6 @@ VersionString::VersionString(const char *version)
         if (cnt < 3) build = 0;
         if (cnt < 4) revision = 0;
     }
-}
-
-VersionString::~VersionString()
-{
-    //dtor
 }
 
 bool VersionString::operator <= (const VersionString &other)
@@ -56,10 +53,10 @@ VersionString& VersionString::operator = (const VersionString &other)
 {
     if (this != &other)
     {
-            major = other.major;
-            minor = other.minor;
-            build = other.build;
-            revision = other.revision;
+        major = other.major;
+        minor = other.minor;
+        build = other.build;
+        revision = other.revision;
     }
 
     return *this;

@@ -1,4 +1,5 @@
 #include "RageVersionInfo.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -7,13 +8,7 @@ using namespace rage;
 
 RageVersionInfo::RageVersionInfo()
 {
-    //ctor
     this->soap = scopedSoap.GetSoap();
-}
-
-RageVersionInfo::~RageVersionInfo()
-{
-    //dtor
 }
 
 std::string RageVersionInfo::getId()
@@ -34,7 +29,6 @@ int RageVersionInfo::getMajor()
 void RageVersionInfo::setMajor(int major)
 {
     //TODO
-    // v.major = std::to_string(major);
 }
 
 int RageVersionInfo::getMinor()
@@ -45,7 +39,6 @@ int RageVersionInfo::getMinor()
 void RageVersionInfo::setMinor(int minor)
 {
     //TODO
-
 }
 
 int RageVersionInfo::getBuild()
@@ -100,7 +93,7 @@ std::map<std::string, std::string> RageVersionInfo::getDependencies()
         return result;
     }
     std::vector<version_dependencies_depends>::const_iterator it = v.dependencies.depends->begin();
-    for(; it != v.dependencies.depends->end(); it++)
+    for(; it != v.dependencies.depends->end(); ++it)
     {
         std::string minv = (*it).minVersion != nullptr ? (*(*it).minVersion) : "0.0";
         std::string maxv = (*it).maxVersion != nullptr ? (*(*it).maxVersion) : "*";

@@ -17,4 +17,5 @@ public:
     virtual void Save(const std::string& name, const std::string& data) = 0;
 };
 }
+
 #endif // IDATASTORAGE_H

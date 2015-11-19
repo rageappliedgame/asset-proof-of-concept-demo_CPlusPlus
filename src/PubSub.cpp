@@ -9,11 +9,6 @@ PubSub& PubSub::getInstance()
     return instance;
 }
 
-PubSub::~PubSub()
-{
-    //dtor
-}
-
 bool PubSub::define(string topic)
 {
     TopicMap::iterator itr = topics.find(topic);
