@@ -7,7 +7,7 @@
 #include <RageVersionInfo.h>
 #include <iostream>
 
-#include "boost/format.hpp"
+#include <boost/format.hpp>
 
 using namespace std;
 using namespace rage;
