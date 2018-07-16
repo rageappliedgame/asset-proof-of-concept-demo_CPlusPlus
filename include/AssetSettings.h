@@ -3,50 +3,49 @@
 
 #include <BaseSettings.h>
 
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/vector.hpp>
-
-#include <boost/archive/xml_oarchive.hpp>
-#include <boost/archive/xml_iarchive.hpp>
-#include <boost/serialization/export.hpp>
-
 #include <string>
 #include <vector>
 
+// Include the polymorphic serialization and registration mechanisms
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/archives/xml.hpp>
+
 namespace rage
 {
-class AssetSettings : public BaseSettings
-{
-    friend class boost::serialization::access;
+	class AssetSettings : public BaseSettings
+	{
+	public:
+		AssetSettings() {};
+		virtual ~AssetSettings() {};
 
-public:
-    AssetSettings(){};
-    virtual ~AssetSettings(){};
-    std::string getTestProperty();
-    void setTestProperty(std::string testProperty);
-    std::vector<std::string> getTestList();
-    void setTestList(std::vector<std::string> testList);
-    bool isTestReadOnly();
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version)
-    {
-        ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(BaseSettings);
-        ar & BOOST_SERIALIZATION_NVP(testProperty);
-        ar & BOOST_SERIALIZATION_NVP(testReadOnly);
-        ar & BOOST_SERIALIZATION_NVP(testList);
-    }
-private:
-    std::string testProperty = "Hello Default World";
-    bool testReadOnly = true;
-    std::vector<std::string> testList = {"Hello", "List", "World"};
+		std::string getTestProperty();
+		void setTestProperty(std::string testProperty);
 
-};
+		std::vector<std::string> getTestList();
+		void setTestList(std::vector<std::string> testList);
+
+		void setSettings(AssetSettings* settings) {
+			rage::BaseSettings::setSettings(this);
+		};
+		bool isTestReadOnly();
+	private:
+		friend class cereal::access;
+
+		template <class Archive>
+		void serialize(Archive & ar)
+		{
+			ar(testProperty, testReadOnly);
+			//ar(testProperty, testReadOnly, testList);
+		}
+
+		std::string testProperty = "Hello Default World";
+		bool testReadOnly = true;
+		std::vector<std::string> testList = { "Hello", "List", "World" };
+	};
 }
 
-// Before calling BOOST_CLASS_EXPORT_*
-// should include the archives which you want to use.
-// The makro then adds specific serialize-functions for the headers.
-BOOST_CLASS_EXPORT_KEY(rage::AssetSettings);
+CEREAL_REGISTER_TYPE(rage::AssetSettings)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(rage::BaseSettings, rage::AssetSettings)
+CEREAL_SPECIALIZE_FOR_ALL_ARCHIVES(rage::AssetSettings, cereal::specialization::member_serialize)
 
 #endif // ASSETSETTINGS_H

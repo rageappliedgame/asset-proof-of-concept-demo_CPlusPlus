@@ -3,23 +3,29 @@
 
 #include <ISettings.h>
 
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/nvp.hpp>
+// Include the polymorphic serialization and registration mechanisms
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/archives/xml.hpp>
 
 namespace rage
 {
-class BaseSettings : public ISettings
-{
-    friend boost::serialization::access;
-    public:
-        BaseSettings(){};
-        virtual ~BaseSettings(){};
-    protected:
-        template <typename Archive>
-        void serialize(Archive& ar, const unsigned int version){
-            ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(ISettings);
-        }
-};
+	class BaseSettings : public ISettings
+	{
+	public:
+		BaseSettings() {};
+		virtual ~BaseSettings() {};
+		void setSettings(BaseSettings* settings);
+	private:
+		friend class cereal::access;
+		template <class Archive>
+		void serialize(Archive & ar)
+		{
+			//ar();
+		}
+	};
 }
+
+CEREAL_REGISTER_TYPE(rage::BaseSettings)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(rage::ISettings, rage::BaseSettings)
 
 #endif // BASESETTINGS_H

@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/asset-proof-of-concept-demo_CPlusPlus/v15/ipch/AutoPCH
+/.vs/asset-proof-of-concept-demo_CPlusPlus/v15
+/.vs/Supercharger/asset-proof-of-concept-demo_CPlusPlus
+/Debug
+/cereal-master.zip
+/Header.h

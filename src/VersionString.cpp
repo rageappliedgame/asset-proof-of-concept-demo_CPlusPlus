@@ -9,7 +9,7 @@ VersionString::VersionString(const char *version)
 {
     major = 999, minor = 999, revision = 999, build = 999;
 
-    cnt = sscanf(version, "%d.%d.%d.%d", &major, &minor, &build, &revision);
+    cnt = sscanf_s(version, "%d.%d.%d.%d", &major, &minor, &build, &revision);
 
     if (cnt > 0)
     {

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include <boost/format.hpp>
+
 #include "vadH.h"
 
 namespace rage

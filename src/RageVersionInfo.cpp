@@ -8,145 +8,149 @@ using namespace rage;
 
 RageVersionInfo::RageVersionInfo()
 {
-    this->soap = scopedSoap.GetSoap();
+	this->soap = scopedSoap.GetSoap();
 }
 
 std::string RageVersionInfo::getId()
 {
-    return v.id;
+	return v.id;
 }
 
 void RageVersionInfo::setId(std::string id)
 {
-    v.id = id;
+	v.id = id;
 }
 
 int RageVersionInfo::getMajor()
 {
-    return static_cast<int>(v.major);
+	return static_cast<int>(v.major);
 }
 
 void RageVersionInfo::setMajor(int major)
 {
-    //TODO
+	//TODO
 }
 
 int RageVersionInfo::getMinor()
 {
-    return static_cast<int>(v.minor);
+	return static_cast<int>(v.minor);
 }
 
 void RageVersionInfo::setMinor(int minor)
 {
-    //TODO
+	//TODO
 }
 
 int RageVersionInfo::getBuild()
 {
-    return int(*v.build);
+	return int(*v.build);
 }
 
 int RageVersionInfo::getRevision()
 {
-    if (v.revision != nullptr)
-    {
-        return atoi(v.revision->c_str());
-    }
+	if (v.revision != nullptr)
+	{
+		return atoi(v.revision->c_str());
+	}
 
-    return 0;
+	return 0;
 }
 
 std::string RageVersionInfo::getVersion()
 {
-    std::stringstream ss;
-    ss  << this->getMajor()
-        << "." << this->getMinor()
-        << "." << this->getBuild();
+	std::stringstream ss;
+	ss << this->getMajor()
+		<< "." << this->getMinor()
+		<< "." << this->getBuild();
 
-    if (this->getRevision() != 0)
-    {
-        ss << "." << this->getRevision();
-    }
-    return ss.str();
+	if (this->getRevision() != 0)
+	{
+		ss << "." << this->getRevision();
+	}
+	return ss.str();
 }
 
 void RageVersionInfo::setRevision(int revision)
 {
-    //TODO
+	//TODO
 }
 
 std::string RageVersionInfo::getMaturity()
 {
-    return v.maturity;
+	return v.maturity;
 }
 
 void RageVersionInfo::setMaturity(std::string maturity)
 {
-    //TODO
+	//TODO
 }
 
 std::map<std::string, std::string> RageVersionInfo::getDependencies()
 {
-    std::map<std::string, std::string> result;
-    if (v.dependencies.depends == nullptr)
-    {
-        return result;
-    }
-    std::vector<version_dependencies_depends>::const_iterator it = v.dependencies.depends->begin();
-    for(; it != v.dependencies.depends->end(); ++it)
-    {
-        std::string minv = (*it).minVersion != nullptr ? (*(*it).minVersion) : "0.0";
-        std::string maxv = (*it).maxVersion != nullptr ? (*(*it).maxVersion) : "*";
-        std::string name = (*it).__item;
-        std::string version = (boost::format("%1%-%2%") % minv % maxv).str();
-        if ( !result.insert(std::make_pair(name, version)).second )
-        {
-            // duplicate dependency, so do nothing
-        }
-    }
+	std::map<std::string, std::string> result;
+	if (v.dependencies.depends == nullptr)
+	{
+		return result;
+	}
+	std::vector<version_dependencies_depends>::const_iterator it = v.dependencies.depends->begin();
+	for (; it != v.dependencies.depends->end(); ++it)
+	{
+		std::string minv = (*it).minVersion != nullptr ? (*(*it).minVersion) : "0.0";
+		std::string maxv = (*it).maxVersion != nullptr ? (*(*it).maxVersion) : "*";
+		std::string name = (*it).__item;
 
-    return result;
+		std::stringstream tmp;
+		tmp << minv << "." << maxv;
+
+		std::string version = tmp.str();
+		if (!result.insert(std::make_pair(name, version)).second)
+		{
+			// duplicate dependency, so do nothing
+		}
+	}
+
+	return result;
 }
 
-void RageVersionInfo::setDependencies(std::map<std::string,std::string> dependencies)
+void RageVersionInfo::setDependencies(std::map<std::string, std::string> dependencies)
 {
-    //TODO
+	//TODO
 }
 
 void RageVersionInfo::setBuild(int build)
 {
-    //TODO
+	//TODO
 }
 
 void RageVersionInfo::LoadVersionInfo(const std::string& strXMLPath)
 {
-    ifstream fstreamIN(strXMLPath);
-    this->soap.is = &fstreamIN;
+	ifstream fstreamIN(strXMLPath);
+	this->soap.is = &fstreamIN;
 
-    if(soap_read_version(&this->soap, &v) != SOAP_OK)
-    {
-        std::cout << "soap_read__version() failed" << std::endl;
-        throw 1;
-    }
+	if (soap_read_version(&this->soap, &v) != SOAP_OK)
+	{
+		std::cout << "soap_read__version() failed" << std::endl;
+		throw 1;
+	}
 
-    if(_setmode(_fileno(stdin), _O_TEXT) == -1)
-    {
-        std::cout << "_setmode() failed" << std::endl;
-        throw 1;
-    }
+	if (_setmode(_fileno(stdin), _O_TEXT) == -1)
+	{
+		std::cout << "_setmode() failed" << std::endl;
+		throw 1;
+	}
 }
 
 std::string RageVersionInfo::SaveVersionInfo(const std::string& strXMLPath)
 {
-    soap_set_omode(&this->soap, SOAP_XML_INDENT);
+	soap_set_omode(&this->soap, SOAP_XML_INDENT);
 
-    ofstream fstreamOUT(strXMLPath);
-    this->soap.os = &fstreamOUT;
+	ofstream fstreamOUT(strXMLPath);
+	this->soap.os = &fstreamOUT;
 
-    if(soap_write_version(&this->soap, &this->v) != SOAP_OK)
-    {
-        std::cout << "soap_write_version() failed" << std::endl;
-        throw 1;
-    }
-    return strXMLPath;
+	if (soap_write_version(&this->soap, &this->v) != SOAP_OK)
+	{
+		std::cout << "soap_write_version() failed" << std::endl;
+		throw 1;
+	}
+	return strXMLPath;
 }

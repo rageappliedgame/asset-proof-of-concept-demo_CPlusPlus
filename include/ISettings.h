@@ -1,19 +1,27 @@
 #ifndef ISETTINGS_H
 #define ISETTINGS_H
 
-#include <boost/serialization/serialization.hpp>
+// Include the polymorphic serialization and registration mechanisms
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/archives/xml.hpp>
 
 namespace rage
 {
-class ISettings
-{
-    friend class boost::serialization::access;
-public:
-    virtual ~ISettings() {}
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {}
-};
+	class ISettings
+	{
+	public:
+		virtual ~ISettings() {}
+	private:
+		friend class cereal::access;
 
+		template<class Archive>
+		void serialize(Archive & ar)
+		{
+			//ar();
+		}
+	};
 }
+
+CEREAL_REGISTER_TYPE(rage::ISettings)
 
 #endif // ISETTINGS_H

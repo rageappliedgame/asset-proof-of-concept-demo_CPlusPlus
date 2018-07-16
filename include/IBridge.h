@@ -3,11 +3,11 @@
 
 namespace rage
 {
-class IBridge
-{
-public:
-    virtual ~IBridge() {}
-};
+	class IBridge
+	{
+	public:
+		virtual ~IBridge() {}
+	};
 }
 
 #endif // IBRIDGE_H

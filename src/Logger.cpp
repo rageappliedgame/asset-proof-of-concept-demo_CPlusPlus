@@ -1,7 +1,7 @@
 #include <Logger.h>
 
 #include <AssetManager.h>
-#include <ILogger.h>
+#include <ILog.h>
 
 #include <iostream>
 
@@ -10,18 +10,18 @@ using namespace rage;
 
 Logger::Logger() : BaseAsset("Logger")
 {
-    //ctor
+	//ctor
 }
 
 void Logger::log(string message)
 {
-    ILogger* logger = getInterface<ILogger>();
-    if (logger != nullptr)
-    {
-        logger->doLog(message);
-    }
-    else
-    {
-        cout << message << endl;
-    }
+	ILog* logger = getInterface<ILog>();
+	if (logger != nullptr)
+	{
+		logger->Log(Severity::Information, message);
+	}
+	else
+	{
+		cout << message << endl;
+	}
 }
