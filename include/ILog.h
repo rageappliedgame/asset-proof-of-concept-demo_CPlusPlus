@@ -1,6 +1,13 @@
+// file:	include\ILog.h
+//
+// summary:	Declares the ILog interface
 #ifndef ILOGGER_H
 #define ILOGGER_H
 
+
+// namespace: rage
+//
+// summary:	.
 namespace rage
 {
 #include <stdlib.h> 
@@ -9,7 +16,7 @@ namespace rage
 	/// <summary>
 	/// Values that represent severities.
 	/// 
-	/// See http://www.drdobbs.com/the-new-c-x-macros/184401387
+	/// See http://www.drdobbs.com/the-new-c-x-macros/184401387.
 	/// </summary>
 	enum Severity : int
 	{
@@ -39,38 +46,46 @@ namespace rage
 		Verbose = 16
 	};
 
-	/*
 	/// <summary>
 	/// Values that represent log levels.
 	/// </summary>
 	enum LogLevel : int
 	{
 		/// <summary>
-		/// An enum constant representing the critical option.
+		/// An enum constant representing the critical option (1).
 		/// </summary>
-		Critical = Severity.Critical,
+		_Critical_ = Severity::Critical,
 		/// <summary>
-		/// An enum constant representing the error option.
+		/// An enum constant representing the error option (3).
 		/// </summary>
-		Error = Critical | Error,
+		_Error_ = LogLevel::_Critical_ | Severity::Error,
 		/// <summary>
-		/// An enum constant representing the warning option.
+		/// An enum constant representing the warning option (7).
 		/// </summary>
-		Warn = Error | Warning,
+		_Warn_ = LogLevel::_Error_ | Severity::Warning,
 		/// <summary>
-		/// An enum constant representing the information option.
+		/// An enum constant representing the information option (15).
 		/// </summary>
-		Info = Warn | Information,
+		_Info_ = LogLevel::_Warn_ | Severity::Information,
 		/// <summary>
-		/// An enum constant representing all option.
+		/// An enum constant representing all option (31).
 		/// </summary>
-		All = Critical | Error | Warning | Information | Verbose,
+		_All_ = LogLevel::_Info_ | Severity::Verbose,
 	};
-	*/
 
+	/// <summary>
+	/// A log interface for the Bridge (used for emitting diagnostic logging).
+	/// </summary>
 	class ILog
 	{
 	public:
+
+		/// <summary>
+		/// Logs.
+		/// </summary>
+		///
+		/// <param name="severity"> The severity. </param>
+		/// <param name="msg">	    The message. </param>
 		virtual void Log(Severity severity, const std::string& msg) = 0;
 	};
 }

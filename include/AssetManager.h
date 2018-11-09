@@ -13,7 +13,10 @@
 #define PATH_SEPARATOR "/" 
 #endif 
 
-//#define USE_CALL_ONCE
+// Define this simple to use a slightly older C++13 singleton implementation using call_once. 
+// See http://www.nuonsoft.com/blog/2017/08/10/implementing-a-thread-safe-singleton-with-c11-using-magic-statics/ for the latest C++11 syntax.  
+// See http://www.nuonsoft.com/blog/2012/10/21/implementing-a-thread-safe-singleton-with-c11/for a slightly older C++ implementation using call_once().
+#undef USE_CALL_ONCE
 
 namespace rage
 {
@@ -22,8 +25,7 @@ namespace rage
 	public:
 
 		/// <summary>
-		/// See http://www.nuonsoft.com/blog/2017/08/10/implementing-a-thread-safe-singleton-with-c11-using-magic-statics/ for the latest C++11 syntax.  
-		/// See http://www.nuonsoft.com/blog/2012/10/21/implementing-a-thread-safe-singleton-with-c11/for a slightly older C++ implementation using call_once().
+		/// Gets the instance.
 		/// </summary>
 		///
 		/// <returns>

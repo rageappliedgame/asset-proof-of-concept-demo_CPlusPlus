@@ -1,3 +1,6 @@
+// file:	src\RageVersionInfo.cpp
+//
+// summary:	Implements the rage version information class
 #include "RageVersionInfo.h"
 
 #include <fstream>
@@ -6,46 +9,99 @@
 using namespace std;
 using namespace rage;
 
+/// <summary>
+/// Default constructor.
+/// </summary>
 RageVersionInfo::RageVersionInfo()
 {
 	this->soap = scopedSoap.GetSoap();
 }
 
+/// <summary>
+/// Gets the identifier.
+/// </summary>
+///
+/// <returns>
+/// The identifier.
+/// </returns>
 std::string RageVersionInfo::getId()
 {
 	return v.id;
 }
 
+/// <summary>
+/// Sets an identifier.
+/// </summary>
+///
+/// <param name="id"> The identifier. </param>
 void RageVersionInfo::setId(std::string id)
 {
 	v.id = id;
 }
 
+/// <summary>
+/// Gets the major.
+/// </summary>
+///
+/// <returns>
+/// The major.
+/// </returns>
 int RageVersionInfo::getMajor()
 {
 	return static_cast<int>(v.major);
 }
 
+/// <summary>
+/// Sets a major.
+/// </summary>
+///
+/// <param name="major"> The major. </param>
 void RageVersionInfo::setMajor(int major)
 {
 	//TODO
 }
 
+/// <summary>
+/// Gets the minor.
+/// </summary>
+///
+/// <returns>
+/// The minor.
+/// </returns>
 int RageVersionInfo::getMinor()
 {
 	return static_cast<int>(v.minor);
 }
 
+/// <summary>
+/// Sets a minor.
+/// </summary>
+///
+/// <param name="minor"> The minor. </param>
 void RageVersionInfo::setMinor(int minor)
 {
 	//TODO
 }
 
+/// <summary>
+/// Gets the build.
+/// </summary>
+///
+/// <returns>
+/// The build.
+/// </returns>
 int RageVersionInfo::getBuild()
 {
 	return int(*v.build);
 }
 
+/// <summary>
+/// Gets the revision.
+/// </summary>
+///
+/// <returns>
+/// The revision.
+/// </returns>
 int RageVersionInfo::getRevision()
 {
 	if (v.revision != nullptr)
@@ -56,6 +112,13 @@ int RageVersionInfo::getRevision()
 	return 0;
 }
 
+/// <summary>
+/// Gets the version.
+/// </summary>
+///
+/// <returns>
+/// The version.
+/// </returns>
 std::string RageVersionInfo::getVersion()
 {
 	std::stringstream ss;
@@ -70,21 +133,45 @@ std::string RageVersionInfo::getVersion()
 	return ss.str();
 }
 
+/// <summary>
+/// Sets a revision.
+/// </summary>
+///
+/// <param name="revision"> The revision. </param>
 void RageVersionInfo::setRevision(int revision)
 {
 	//TODO
 }
 
+/// <summary>
+/// Gets the maturity.
+/// </summary>
+///
+/// <returns>
+/// The maturity.
+/// </returns>
 std::string RageVersionInfo::getMaturity()
 {
 	return v.maturity;
 }
 
+/// <summary>
+/// Sets a maturity.
+/// </summary>
+///
+/// <param name="maturity"> The maturity. </param>
 void RageVersionInfo::setMaturity(std::string maturity)
 {
 	//TODO
 }
 
+/// <summary>
+/// Gets the dependencies.
+/// </summary>
+///
+/// <returns>
+/// The dependencies.
+/// </returns>
 std::map<std::string, std::string> RageVersionInfo::getDependencies()
 {
 	std::map<std::string, std::string> result;
@@ -112,16 +199,33 @@ std::map<std::string, std::string> RageVersionInfo::getDependencies()
 	return result;
 }
 
+/// <summary>
+/// Sets the dependencies.
+/// </summary>
+///
+/// <param name="dependencies"> The dependencies. </param>
 void RageVersionInfo::setDependencies(std::map<std::string, std::string> dependencies)
 {
 	//TODO
 }
 
+/// <summary>
+/// Sets a build.
+/// </summary>
+///
+/// <param name="build"> The build. </param>
 void RageVersionInfo::setBuild(int build)
 {
 	//TODO
 }
 
+/// <summary>
+/// Loads version information.
+/// </summary>
+///
+/// <exception cref="1"> Thrown when a 1 error condition occurs. </exception>
+///
+/// <param name="strXMLPath"> Full pathname of the XML file. </param>
 void RageVersionInfo::LoadVersionInfo(const std::string& strXMLPath)
 {
 	ifstream fstreamIN(strXMLPath);
@@ -140,6 +244,17 @@ void RageVersionInfo::LoadVersionInfo(const std::string& strXMLPath)
 	}
 }
 
+/// <summary>
+/// Saves a version information.
+/// </summary>
+///
+/// <exception cref="1"> Thrown when a 1 error condition occurs. </exception>
+///
+/// <param name="strXMLPath"> Full pathname of the XML file. </param>
+///
+/// <returns>
+/// A std::string.
+/// </returns>
 std::string RageVersionInfo::SaveVersionInfo(const std::string& strXMLPath)
 {
 	soap_set_omode(&this->soap, SOAP_XML_INDENT);

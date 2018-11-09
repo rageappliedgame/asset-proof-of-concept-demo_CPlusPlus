@@ -17,7 +17,15 @@ using namespace std;
 using namespace rage;
 
 #ifdef USE_CALL_ONCE
+
+/// <summary>
+/// The asset manager m instance.
+/// </summary>
 std::unique_ptr<AssetManager> AssetManager::m_instance;
+
+/// <summary>
+/// The asset manager m once flag.
+/// </summary>
 std::once_flag AssetManager::m_onceFlag;
 #endif
 

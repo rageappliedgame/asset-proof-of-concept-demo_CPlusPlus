@@ -1,6 +1,3 @@
-// file:	src\VersionString.cpp
-//
-// summary:	Implements the version string class
 #include "VersionString.h"
 
 #include <iostream>
@@ -8,11 +5,6 @@
 using namespace std;
 using namespace rage;
 
-/// <summary>
-/// Constructor.
-/// </summary>
-///
-/// <param name="version"> The version. </param>
 VersionString::VersionString(const char *version)
 {
     major = 999, minor = 999, revision = 999, build = 999;
@@ -27,9 +19,6 @@ VersionString::VersionString(const char *version)
     }
 }
 
-/// <summary>
-/// .
-/// </summary>
 bool VersionString::operator <= (const VersionString &other)
 {
     if (major < other.major)
@@ -60,15 +49,6 @@ bool VersionString::operator <= (const VersionString &other)
     return false;
 }
 
-/// <summary>
-/// Assignment operator.
-/// </summary>
-///
-/// <param name="other"> The other. </param>
-///
-/// <returns>
-/// A shallow copy of this object.
-/// </returns>
 VersionString& VersionString::operator = (const VersionString &other)
 {
     if (this != &other)
