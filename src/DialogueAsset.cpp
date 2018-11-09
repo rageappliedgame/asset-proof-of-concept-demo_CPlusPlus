@@ -13,7 +13,7 @@ using namespace rage;
 
 DialogueAsset::DialogueAsset() : BaseAsset("DialogueAsset")
 {
-    logger = dynamic_cast<Logger*>(AssetManager::getInstance()->findAssetByClass("Logger"));
+    logger = dynamic_cast<Logger*>(AssetManager::getInstance().findAssetByClass("Logger"));
 }
 
 void DialogueAsset::loadScript(string actor, const char* fileName)

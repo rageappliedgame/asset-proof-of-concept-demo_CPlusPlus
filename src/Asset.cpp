@@ -113,7 +113,7 @@ void Asset::doStore()
 
 void Asset::publicMethod(string message)
 {
-	list<IAsset*> loggers = AssetManager::getInstance()->findAssetsByClass("Logger");
+	list<IAsset*> loggers = AssetManager::getInstance().findAssetsByClass("Logger");
 	list<IAsset*>::const_iterator it;
 	for (it = loggers.begin(); it != loggers.end(); ++it)
 	{

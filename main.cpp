@@ -32,7 +32,7 @@ Bridge* bridge2 = new Bridge();
 
 static void test_01_Setup()
 {
-	AssetManager::getInstance()->setBridge(bridge2);
+	AssetManager::getInstance().setBridge(bridge2);
 
 	asset1 = new Asset();
 	asset2 = new Asset();
@@ -67,7 +67,7 @@ void test_02_VersionAndDependenciesReport()
 
 	cout << endl;
 
-	cout << AssetManager::getInstance()->getVersionAndDependenciesReport() << endl;
+	cout << AssetManager::getInstance().getVersionAndDependenciesReport() << endl;
 
 	cout << "Version: v" << asset1->getVersion() << endl;
 
@@ -80,7 +80,7 @@ void test_03_AssetToAssetAndBridge()
 
 	asset1->publicMethod("Hello World (console.log)");
 
-	AssetManager::getInstance()->setBridge(bridge1);
+	AssetManager::getInstance().setBridge(bridge1);
 
 	asset1->publicMethod("Hello Different World (Game Engine Logging)");
 
@@ -125,7 +125,7 @@ void test_04_DataStorageAndArchive()
 	//
 	asset2->setBridge(nullptr);
 
-	AssetManager::getInstance()->setBridge(nullptr);
+	AssetManager::getInstance().setBridge(nullptr);
 
 	test_04_DataStorageAndArchive_doList();
 
@@ -193,7 +193,7 @@ void test_05_EventSubscription()
 void test_06_SanityChecks()
 {
 
-	cout << "Trying to re-register: " << AssetManager::getInstance()->registerAssetInstance(*asset4, asset4->getClassName()) << endl;
+	cout << "Trying to re-register: " << AssetManager::getInstance().registerAssetInstance(*asset4, asset4->getClassName()) << endl;
 
 	cout << endl;
 }

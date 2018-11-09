@@ -1,69 +1,57 @@
+// file:	src\AssetManager.cpp
+//
+// summary:	Implements the asset manager class
 #include <AssetManager.h>
 
 #include <VersionString.h>
 
 #include <sstream>
-#include <mutex>
 #include <iostream>
 #include <iomanip>
+
+#ifdef USE_CALL_ONCE
+#include <mutex>
+#endif
 
 using namespace std;
 using namespace rage;
 
-AssetManager* AssetManager::instance = NULL;
+#ifdef USE_CALL_ONCE
+std::unique_ptr<AssetManager> AssetManager::m_instance;
+std::once_flag AssetManager::m_onceFlag;
+#endif
 
-// http://preshing.com/20130930/double-checked-locking-is-fixed-in-cpp11/
-// this newer C++11 implementation has issues with older VS versions (show on exit).
-// replaced by a thread-safe DCLP (Double Checked Locking Pattern).
-//
-//AssetManager& AssetManager::getInstance()
-//{
-//	static AssetManager instance;
-//	return instance;
-//}
-
-std::mutex mtx1;
-std::mutex mtx2;
-
-AssetManager* AssetManager::getInstance()
+/// <summary>
+/// Gets the instance.
+/// </summary>
+///
+/// <returns>
+/// The instance.
+/// </returns>
+AssetManager& AssetManager::getInstance()
 {
-	// See http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
-	// And http://www.codeproject.com/Articles/96942/Singleton-Design-Pattern-and-Thread-Safety
-	// And http://jinaldesai.net/all-about-singleton-pattern/
-	//
-	// Note the use of a AssetManager* needs all statements using AssetManager.getInstance().aMethod()
-	// to be changed into AssetManager.getInstance()->aMethod()
-	//
-	// Problem with a lot of implementations is that the outer instance==NULL test fails when the object is
-	// being partially created, thus returning a partially initialized singleton instance.
-	//
-	AssetManager* tmp = instance;
-
-	if (instance == NULL)	// insert memory barrier #1
-	{
-		//first synchronization lock, only one thread will enter the block
-		mtx1.lock();
-		{
-			tmp = instance;
-
-			if (tmp == NULL) // insert memory barrier #2
-			{
-				//second level synchronization lock, only one thread will enter the block
-				mtx2.lock();
-				{
-					tmp = new AssetManager();
-				}
-				mtx2.unlock();
-
-				instance = tmp;
-			}
-		}
-		mtx1.unlock();
-	}
-
+#ifdef USE_CALL_ONCE
+	std::call_once(m_onceFlag,
+		[] {
+		m_instance.reset(new AssetManager);
+	});
+	return *m_instance.get();
+#else
+	static AssetManager instance;
 	return instance;
+#endif
 }
 
+/// <summary>
+/// Registers the asset instance.
+/// </summary>
+///
+/// <param name="asset"> [in,out] The asset. </param>
+/// <param name="clazz"> The clazz. </param>
+///
+/// <returns>
+/// A string.
+/// </returns>
 string AssetManager::registerAssetInstance(IAsset& asset, string clazz)
 {
 	for (map<string, IAsset*>::iterator itr = assets.begin(); itr != assets.end(); ++itr)
@@ -82,6 +70,15 @@ string AssetManager::registerAssetInstance(IAsset& asset, string clazz)
 	return id;
 }
 
+/// <summary>
+/// Unregisters the asset instance described by ID.
+/// </summary>
+///
+/// <param name="id"> The identifier. </param>
+///
+/// <returns>
+/// True if it succeeds, false if it fails.
+/// </returns>
 bool AssetManager::unregisterAssetInstance(string id)
 {
 	map<string, IAsset *>::iterator itr = assets.find(id);
@@ -94,6 +91,15 @@ bool AssetManager::unregisterAssetInstance(string id)
 	return false;
 }
 
+/// <summary>
+/// Searches for the first asset by identifier.
+/// </summary>
+///
+/// <param name="id"> The identifier. </param>
+///
+/// <returns>
+/// Null if it fails, else the found asset by identifier.
+/// </returns>
 IAsset* AssetManager::findAssetById(string id)
 {
 	map<string, IAsset *>::iterator itr = assets.find(id);
@@ -105,6 +111,15 @@ IAsset* AssetManager::findAssetById(string id)
 	return NULL;
 }
 
+/// <summary>
+/// Searches for the first asset by class.
+/// </summary>
+///
+/// <param name="className"> Name of the class. </param>
+///
+/// <returns>
+/// Null if it fails, else the found asset by class.
+/// </returns>
 IAsset* AssetManager::findAssetByClass(string className)
 {
 	for (map<string, IAsset*>::iterator itr = assets.begin(); itr != assets.end(); ++itr)
@@ -118,6 +133,15 @@ IAsset* AssetManager::findAssetByClass(string className)
 	return NULL;
 }
 
+/// <summary>
+/// Searches for the first assets by class.
+/// </summary>
+///
+/// <param name="className"> Name of the class. </param>
+///
+/// <returns>
+/// Null if it fails, else the found assets by class.
+/// </returns>
 list<IAsset*> AssetManager::findAssetsByClass(string className)
 {
 	list<IAsset*> found;
@@ -132,16 +156,35 @@ list<IAsset*> AssetManager::findAssetsByClass(string className)
 	return found;
 }
 
+/// <summary>
+/// Gets the bridge.
+/// </summary>
+///
+/// <returns>
+/// Null if it fails, else the bridge.
+/// </returns>
 IBridge* AssetManager::getBridge()
 {
 	return this->bridge;
 }
 
+/// <summary>
+/// Sets a bridge.
+/// </summary>
+///
+/// <param name="bridge"> [in,out] If non-null, the bridge. </param>
 void AssetManager::setBridge(IBridge* bridge)
 {
 	this->bridge = bridge;
 }
 
+/// <summary>
+/// Gets version and dependencies report.
+/// </summary>
+///
+/// <returns>
+/// The version and dependencies report.
+/// </returns>
 std::string AssetManager::getVersionAndDependenciesReport()
 {
 	std::stringstream report;
@@ -175,7 +218,7 @@ std::string AssetManager::getVersionAndDependenciesReport()
 
 			bool found = false;
 
-			list<IAsset*> dep = AssetManager::getInstance()->findAssetsByClass(dit->first);
+			list<IAsset*> dep = AssetManager::getInstance().findAssetsByClass(dit->first);
 			for (std::list<IAsset*>::const_iterator iterator = dep.begin(), end = dep.end(); iterator != end; ++iterator)
 			{
 				VersionString vdep(((*iterator)->getVersion()).c_str());
