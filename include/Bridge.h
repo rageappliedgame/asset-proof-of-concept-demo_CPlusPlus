@@ -9,7 +9,7 @@
 
 #include <experimental/filesystem>
 
-#pragma message ("VEG This is part of the demo app")
+#pragma message ("VEG Bridge.h is part of the demo app.")
 
 //#include <IDataStorage.h>
 //#include <IDataArchive.h>

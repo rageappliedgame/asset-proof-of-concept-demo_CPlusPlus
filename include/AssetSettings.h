@@ -10,6 +10,8 @@
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/xml.hpp>
 
+#pragma message ("VEG AssetSetting.h is part of the demo app.")
+
 namespace rage
 {
 	class AssetSettings : public BaseSettings
@@ -35,6 +37,8 @@ namespace rage
 		void serialize(Archive & ar)
 		{
 			ar(testProperty, testReadOnly);
+
+			// cereal still fails on the testList std::vector.
 			//ar(testProperty, testReadOnly, testList);
 		}
 

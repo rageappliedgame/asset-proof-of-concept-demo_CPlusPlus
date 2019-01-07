@@ -8,6 +8,8 @@
 using namespace std;
 using namespace rage;
 
+#pragma message ("VEG Logger.cpp is part of the demo app.")
+
 Logger::Logger() : BaseAsset("Logger")
 {
 	//ctor

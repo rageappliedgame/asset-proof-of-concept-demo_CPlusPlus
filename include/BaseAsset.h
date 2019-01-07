@@ -167,8 +167,6 @@ namespace rage
 		/// </returns>
 		ISettings* settingsFromXml(std::string xml);
 
-		template <class Settings>
-
 		/// <summary>
 		/// Settings to XML.
 		/// </summary>
@@ -176,38 +174,21 @@ namespace rage
 		/// <returns>
 		/// A std::string.
 		/// </returns>
+		template <class Settings>
 		std::string settingsToXml() {
+			std::unique_ptr<Settings> ptr = std::make_unique<Settings>(*getSettings<Settings>());
 
-			/// <summary>
-			/// The temporary.
-			/// </summary>
-			auto tmp = settings;
-
-#pragma message ("Derive Settigns from settings type?")
-
-			/// <summary>
-			/// The second temporary.
-			/// </summary>
-			Settings* tmp2 = getSettings<Settings>();
-
-			/// <summary>
-			/// The first temporary.
-			/// </summary>
-			std::unique_ptr<Settings> tmp1 = std::make_unique<Settings>(*getSettings<Settings>());
-
-			/// <summary>
-			/// The stream.
-			/// </summary>
 			std::stringstream stream;
 
 			/// <summary>
-			/// .
+			/// See http://uscilab.github.io/cereal/polymorphism.html
+			/// 
+			/// Note: cereal populates the stream at the end of the block (just after the archive call it's still empty).
 			/// </summary>
-			//XXX See http://uscilab.github.io/cereal/polymorphism.html
 			{
 				cereal::XMLOutputArchive archive(stream); // cereal::XMLOutputArchive::Options::Default());
 
-				archive(CEREAL_NVP(tmp1));
+				archive(cereal::make_nvp("AssetSettings", ptr));
 			}
 
 			/// <summary>

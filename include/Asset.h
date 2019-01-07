@@ -10,6 +10,8 @@
 
 #include <map>
 
+#pragma message ("VEG Asset.h is part of the demo app.")
+
 namespace rage
 {
 	class Asset : public BaseAsset

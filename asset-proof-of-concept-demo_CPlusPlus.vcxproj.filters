@@ -134,4 +134,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Logger.VersionAndDependencies.xml" />
+    <CopyFileToFolders Include="DialogueAsset.VersionAndDependencies.xml" />
+    <CopyFileToFolders Include="Asset.VersionAndDependencies.xml" />
+    <CopyFileToFolders Include="script.txt" />
+  </ItemGroup>
 </Project>

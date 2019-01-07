@@ -12,6 +12,8 @@
 
 #include <cereal/archives/xml.hpp>
 
+#pragma message ("VEG Bridge.cpp is part of the demo app.")
+
 namespace fs = std::experimental::filesystem;
 
 using namespace std;

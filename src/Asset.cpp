@@ -6,6 +6,8 @@
 using namespace std;
 using namespace rage;
 
+#pragma message ("VEG Asset.cpp is part of the demo app.")
+
 Asset::Asset() : BaseAsset("Asset")
 {
 	this->settings = new AssetSettings();

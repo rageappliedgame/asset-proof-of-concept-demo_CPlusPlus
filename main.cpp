@@ -5,20 +5,34 @@
 #include <PubSub.h>
 #include <Bridge.h>
 #include <RageVersionInfo.h>
-
 #include <iostream>
 #include "main.h"
 
 using namespace std;
 using namespace rage;
 
-template <typename ...Args>
-void MyEventHandler(string topic, Args... args)
-{
-	//va_list args;
-	//va_start(args, topic);
+#pragma message ("VEG Main.cpp is part of the demo app.")
+#pragma message ("VEG Note: For the demo the *.VersionAndDependencies.xml and script.txt files should be present in the output directory.")
 
-	cout << "[PubSup]" << topic << " : " << args[0] << endl;
+/// <summary>
+/// Handler for Published Events.
+/// </summary>
+///
+/// <typeparam name="...Args"> Type of the ... arguments. </typeparam>
+/// <param name="topic"> The topic. </param>
+/// <param name="args">  Variable arguments providing the arguments. </param>
+template <typename ...Args>
+void MyEventHandler(std::string topic, Args... args)
+{
+	const char* sep = "";
+	std::cout << "[PubSup]." << topic << " : [";
+
+	//See folding expresions https://en.cppreference.com/w/cpp/language/fold
+	//See https://stackoverflow.com/questions/25680461/variadic-template-pack-expansion
+	int dummy[] = { 0, ((void)PubSub::getInstance().EVENT_ARGS_EXPANDER(std::forward<Args>(args)),0)... };
+	//(((std::cout << sep << args), sep = " "), ...);
+	
+	cout << "] (using a method)" << endl;
 }
 
 Asset* asset1 = nullptr;
@@ -149,43 +163,35 @@ void test_04_DataStorageAndArchive()
 }
 
 template <typename ...Args>
-void test_05_EventSubscription()
+void test_05_EventSubscription(std::string topic, Args... args)
 {
 	//! Event Subscription.
 	//
 	// Define an event, subscribe to it and fire the event.
 	//
-	PubSub::getInstance().define("EventSystem.Msg");
+	PubSub::getInstance().define(topic);
 
 	//! Using a method.
 	//
-#pragma message("VEG This method still fails.")
-	/*
-		int subId1 = PubSub::getInstance().subscribe("EventSystem.Msg", static_cast<std::function<void(string, Function lambda)>>(MyEventHandler));
+	{
+		int subId = PubSub::getInstance().subscribe("EventSystem.Msg", static_cast<std::function<void(std::string, Args...)>>(EVENT_WRAPPER(MyEventHandler)));
 
-		PubSub::getInstance().publish("EventSystem.Msg", "hello", "from", "demo.html!");
-
-		PubSub::getInstance().unsubscribe(subId1);
-	*/
+		PubSub::getInstance().publish(topic, forward<Args>(args)...);
+		PubSub::getInstance().unsubscribe(subId);
+	}
 
 
 	//! Using anonymous delegate.
-	//XXX See https://stackoverflow.com/questions/23347287/parameter-pack-expansion-fails
-	//    See https://stackoverflow.com/questions/25680461/variadic-template-pack-expansion
-	//    See cout << typeid(variable).name() << endl;
-	//int subId2 = PubSub::getInstance().subscribe("EventSystem.Msg", (string topic, Args... args)
-	//{
-#pragma message("VEG This method still fails.")
-	//	va_list args1;
-	//	va_start(args1, topic);
+	//
+	{
+		int subId = PubSub::getInstance().subscribe("EventSystem.Msg", [](string topic, int a, int b, double c)
+		{
+			cout << "[PubSub]." << topic << ": [" << a << " " << b << " " << c << "] (using anonymous delegate)" << endl;
+		});
 
-	//	cout << "[PubSub]." << topic << ": [" << args1[0] << " " << args1[1] << " " << args1[2] << "] (anonymous delegate)" << endl;
-	//});
-
-	//PubSub::getInstance().publish("EventSystem.Msg", 1, 2, 3.14159265);
-
-	//PubSub::getInstance().unsubscribe(subId2);
-	//}
+		PubSub::getInstance().publish("EventSystem.Msg", 1, 2, 3.14159265);
+		PubSub::getInstance().unsubscribe(subId);
+	}
 
 	cout << endl;
 }
@@ -265,13 +271,14 @@ int main()
 
 	test_01_Setup();
 
+	//Still fails
 	test_02_VersionAndDependenciesReport();
 
 	test_03_AssetToAssetAndBridge();
 
 	test_04_DataStorageAndArchive();
 
-	test_05_EventSubscription();
+	test_05_EventSubscription("EventSystem.Msg", "hello", "from", "demo.html!");
 
 	test_06_SanityChecks();
 

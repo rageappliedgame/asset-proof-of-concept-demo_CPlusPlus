@@ -15,6 +15,11 @@
 // summary:	.
 namespace rage
 {
+
+#define EVENT_WRAPPER(f) \
+    [&] (auto&&... args) -> decltype(auto) \
+    { return f (std::forward<decltype(args)>(args)...); }
+
 	/// <summary>
 	/// A pub sub implementation.
 	/// </summary>
@@ -53,8 +58,6 @@ namespace rage
 		/// </returns>
 		bool unsubscribe(int token);
 
-		template <typename Function>
-
 		/// <summary>
 		/// Subscribes.
 		/// </summary>
@@ -65,6 +68,7 @@ namespace rage
 		/// <returns>
 		/// An int.
 		/// </returns>
+		template <typename Function>
 		int subscribe(std::string topic, Function lambda)
 		{
 			define(topic);
@@ -79,8 +83,6 @@ namespace rage
 			return subUId++;
 		};
 
-		template <typename ...Args>
-
 		/// <summary>
 		/// Publishes.
 		/// </summary>
@@ -91,6 +93,7 @@ namespace rage
 		/// <returns>
 		/// True if it succeeds, false if it fails.
 		/// </returns>
+		template <typename ...Args>
 		bool publish(std::string topic, Args... args)
 		{
 			TopicMap::const_iterator itr = topics.find(topic);
@@ -112,6 +115,11 @@ namespace rage
 			}
 
 			return false;
+		};
+
+		template <typename T>
+		void EVENT_ARGS_EXPANDER(T t) {
+			std::cout << t << " ";
 		};
 
 	private:

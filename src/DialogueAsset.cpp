@@ -11,6 +11,8 @@
 using namespace std;
 using namespace rage;
 
+#pragma message ("VEG DialogueAsset.cpp is part of the demo app.")
+
 DialogueAsset::DialogueAsset() : BaseAsset("DialogueAsset")
 {
     logger = dynamic_cast<Logger*>(AssetManager::getInstance().findAssetByClass("Logger"));
