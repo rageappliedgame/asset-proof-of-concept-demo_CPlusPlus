@@ -1,7 +1,21 @@
-// file:	src\PubSub.cpp
-//
-// summary:	Implements the pub sub class
-#include <PubSub.h>
+/*
+ * Copyright 2019 Open University of the Netherlands / St. Kliment Ohridski University of Sofia
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * This project has received funding from the European Union’s Horizon
+ * 2020 research and innovation programme under grant agreement No 644187.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+#include <Messages.h>
 
 using namespace std;
 using namespace rage;
@@ -13,9 +27,9 @@ using namespace rage;
 /// <returns>
 /// The instance.
 /// </returns>
-PubSub& PubSub::getInstance()
+Messages& Messages::getInstance()
 {
-    static PubSub instance;
+    static Messages instance;
     return instance;
 }
 
@@ -28,7 +42,7 @@ PubSub& PubSub::getInstance()
 /// <returns>
 /// True if it succeeds, false if it fails.
 /// </returns>
-bool PubSub::define(string topic)
+bool Messages::define(string topic)
 {
     TopicMap::iterator itr = topics.find(topic);
     if (itr == topics.end())
@@ -49,7 +63,7 @@ bool PubSub::define(string topic)
 /// <returns>
 /// True if it succeeds, false if it fails.
 /// </returns>
-bool PubSub::unsubscribe(int token)
+bool Messages::unsubscribe(int token)
 {
     Subscribers::iterator itrSub;
     for(TopicMap::iterator itr = topics.begin(); itr != topics.end(); ++itr)

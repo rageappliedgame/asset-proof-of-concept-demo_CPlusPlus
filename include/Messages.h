@@ -1,8 +1,22 @@
-// file:	include\PubSub.h
-//
-// summary:	Declares the pub sub class
+/*
+ * Copyright 2019 Open University of the Netherlands / St. Kliment Ohridski University of Sofia
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * This project has received funding from the European Union’s Horizon
+ * 2020 research and innovation programme under grant agreement No 644187.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 #ifndef PUBSUB_H
-#define PUBSUB_H
+#define MESSAGES_H
 
 #include <IAsset.h>
 #include <Callback.h>
@@ -23,7 +37,7 @@ namespace rage
 	/// <summary>
 	/// A pub sub implementation.
 	/// </summary>
-	class PubSub
+	class Messages
 	{
 	public:
 
@@ -34,7 +48,7 @@ namespace rage
 		/// <returns>
 		/// The instance.
 		/// </returns>
-		static PubSub& getInstance();
+		static Messages& getInstance();
 
 		/// <summary>
 		/// Defines the given topic.
@@ -127,19 +141,19 @@ namespace rage
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		PubSub() : subUId(1) {};
+		Messages() : subUId(1) {};
 
 		/// <summary>
 		/// Destructor.
 		/// </summary>
-		~PubSub() {};
+		~Messages() {};
 
 		/// <summary>
 		/// Copy constructor.
 		/// </summary>
 		///
 		/// <param name="parameter1"> The first parameter. </param>
-		PubSub(const PubSub&);
+		Messages(const Messages&);
 
 		/// <summary>
 		/// Assignment operator.
@@ -150,7 +164,7 @@ namespace rage
 		/// <returns>
 		/// A shallow copy of this object.
 		/// </returns>
-		const PubSub& operator=(const PubSub&);
+		const Messages& operator=(const Messages&);
 
 		/// <summary>
 		/// Defines an alias representing the subscribers.

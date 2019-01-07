@@ -39,9 +39,6 @@
     <ClCompile Include="src\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PubSub.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\RageVersionInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\VersionString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Messages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,9 +106,6 @@
     <ClInclude Include="include\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\PubSub.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\RageVersionInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -133,11 +130,17 @@
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Messages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Logger.VersionAndDependencies.xml" />
     <CopyFileToFolders Include="DialogueAsset.VersionAndDependencies.xml" />
     <CopyFileToFolders Include="Asset.VersionAndDependencies.xml" />
     <CopyFileToFolders Include="script.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\soap.nsmap" />
   </ItemGroup>
 </Project>
