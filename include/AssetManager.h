@@ -31,12 +31,19 @@
 #endif 
 
 // Define this simple to use a slightly older C++13 singleton implementation using call_once. 
-// See http://www.nuonsoft.com/blog/2017/08/10/implementing-a-thread-safe-singleton-with-c11-using-magic-statics/ for the latest C++11 syntax.  
-// See http://www.nuonsoft.com/blog/2012/10/21/implementing-a-thread-safe-singleton-with-c11/for a slightly older C++ implementation using call_once().
+// 
+// See http://www.nuonsoft.com/blog/2017/08/10/implementing-a-thread-safe-singleton-with-c11-using-magic-statics/ 
+// for the latest C++11 syntax.  
+// 
+// See http://www.nuonsoft.com/blog/2012/10/21/implementing-a-thread-safe-singleton-with-c11/for 
+// a slightly older C++ implementation using call_once().
 #undef USE_CALL_ONCE
 
 namespace rage
 {
+	/// <summary>
+	/// Manager for assets.
+	/// </summary>
 	class AssetManager
 	{
 	public:
@@ -52,13 +59,11 @@ namespace rage
 
 		/// <summary>
 		/// Destructor.
+		/// 
+		/// Note: The original body (now replaced by default) was delete &assets; which caused an
+		/// exception at exit.
 		/// </summary>
 		virtual ~AssetManager() = default;
-		// {
-		// veg: This line creates an exception at exit (if this block replaces 'default').
-		// 
-		// delete &assets;
-		// } 
 
 		/// <summary>
 		/// Registers the asset instance.

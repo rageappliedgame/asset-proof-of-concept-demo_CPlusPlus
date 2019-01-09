@@ -22,6 +22,8 @@
 #include <Messages.h>
 #include <Bridge.h>
 #include <RageVersionInfo.h>
+#include <BaseAsset.h>
+#include <AssetSettings.h>
 #include <iostream>
 #include "main.h"
 
@@ -46,9 +48,9 @@ void MyEventHandler(std::string topic, Args... args)
 
 	//See folding expresions https://en.cppreference.com/w/cpp/language/fold
 	//See https://stackoverflow.com/questions/25680461/variadic-template-pack-expansion
-	int dummy[] = { 0, ((void)PubSub::getInstance().EVENT_ARGS_EXPANDER(std::forward<Args>(args)),0)... };
+	int dummy[] = { 0, ((void)Messages::getInstance().EVENT_ARGS_EXPANDER(std::forward<Args>(args)),0)... };
 	//(((std::cout << sep << args), sep = " "), ...);
-	
+
 	cout << "] (using a method)" << endl;
 }
 
@@ -186,28 +188,28 @@ void test_05_EventSubscription(std::string topic, Args... args)
 	//
 	// Define an event, subscribe to it and fire the event.
 	//
-	PubSub::getInstance().define(topic);
+	Messages::getInstance().define(topic);
 
 	//! Using a method.
 	//
 	{
-		int subId = PubSub::getInstance().subscribe("EventSystem.Msg", static_cast<std::function<void(std::string, Args...)>>(EVENT_WRAPPER(MyEventHandler)));
+		int subId = Messages::getInstance().subscribe("EventSystem.Msg", static_cast<std::function<void(std::string, Args...)>>(EVENT_WRAPPER(MyEventHandler)));
 
-		PubSub::getInstance().publish(topic, forward<Args>(args)...);
-		PubSub::getInstance().unsubscribe(subId);
+		Messages::getInstance().publish(topic, forward<Args>(args)...);
+		Messages::getInstance().unsubscribe(subId);
 	}
 
 
 	//! Using anonymous delegate.
 	//
 	{
-		int subId = PubSub::getInstance().subscribe("EventSystem.Msg", [](string topic, int a, int b, double c)
+		int subId = Messages::getInstance().subscribe("EventSystem.Msg", [](string topic, int a, int b, double c)
 		{
 			cout << "[PubSub]." << topic << ": [" << a << " " << b << " " << c << "] (using anonymous delegate)" << endl;
 		});
 
-		PubSub::getInstance().publish("EventSystem.Msg", 1, 2, 3.14159265);
-		PubSub::getInstance().unsubscribe(subId);
+		Messages::getInstance().publish("EventSystem.Msg", 1, 2, 3.14159265);
+		Messages::getInstance().unsubscribe(subId);
 	}
 
 	cout << endl;
@@ -215,7 +217,6 @@ void test_05_EventSubscription(std::string topic, Args... args)
 
 void test_06_SanityChecks()
 {
-
 	cout << "Trying to re-register: " << AssetManager::getInstance().registerAssetInstance(*asset4, asset4->getClassName()) << endl;
 
 	cout << endl;
@@ -258,26 +259,42 @@ void test_08_Settings()
 	cout << asset2->settingsToXml<AssetSettings>() << endl;
 
 	//! Save App Default Settings if not present (and Settings is not null).
-	asset2->saveDefaultSettings(false);
+	if (asset2->saveDefaultSettings<AssetSettings>(true)) {
+		cout << "Saved Default Settings" << endl;
+	}
+	else
+	{
+		cout << "Could not Save Default Settings" << endl;
+	}
+
+	AssetSettings as;
+	as.setTestProperty("MODIFIED");
+	asset2->setSettings(&as);
 
 	//! Load App Default Settings if present (and Settings is not null).
-	asset2->loadDefaultSettings();
-	cout << asset2->settingsToXml<AssetSettings>() << endl;
+	if (asset2->loadDefaultSettings<AssetSettings>())
+	{
+		cout << asset2->settingsToXml<AssetSettings>() << endl;
+	}
+	else
+	{
+		cout << "Could not Load Default Settings" << endl;
+	}
 
 	//! Try Saving an Asset with No Settings (null)
 	if (asset3->hasSettings())
 	{
-		asset3->saveDefaultSettings(false);
+		asset3->saveDefaultSettings<AssetSettings>(false);
 
 		//XX cout << asset3->settingsToXml() << endl;
 	}
 
 	//! Save Runtime Settings
-	asset2->saveSettings("runtime-settings.xml");
+	asset2->saveSettings<AssetSettings>("runtime-settings.xml");
 
 	//! Load Runtime Settings.
 	asset1->setBridge(bridge1);
-	asset1->loadSettings("runtime-settings.xml");
+	asset1->loadSettings<AssetSettings>("runtime-settings.xml");
 
 	cout << asset1->settingsToXml<AssetSettings>() << endl;
 }

@@ -67,6 +67,12 @@ namespace rage
 		/// <typeparam name="Archive"> Type of the archive. </typeparam>
 		/// <param name="ar"> [in,out] The archive. </param>
 		template <class Archive>
+
+		/// <summary>
+		/// Serialize this object to the given stream.
+		/// </summary>
+		///
+		/// <param name="ar"> [in,out] The archive. </param>
 		void serialize(Archive & ar)
 		{
 			//ar();

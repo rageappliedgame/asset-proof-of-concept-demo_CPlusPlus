@@ -42,9 +42,9 @@ BaseAsset::BaseAsset(string className)
 	this->className = className;
 	this->id = AssetManager::getInstance().registerAssetInstance(*this, this->getClassName());
 
-	std::stringstream fn;
-	fn << this->className << ".VersionAndDependencies.xml";
-	string versionInfoXMLFile = fn.str();
+	std::stringstream ss;
+	ss << this->className << ".VersionAndDependencies.xml";
+	string versionInfoXMLFile = ss.str();
 
 	this->versionInfo = new RageVersionInfo();
 	versionInfo->LoadVersionInfo(versionInfoXMLFile);
@@ -163,111 +163,4 @@ bool BaseAsset::hasSettings()
 void BaseAsset::setSettings(ISettings* settings)
 {
 	this->settings = settings;
-}
-
-/// <summary>
-/// Loads default settings.
-/// </summary>
-///
-/// <returns>
-/// True if it succeeds, false if it fails.
-/// </returns>
-bool BaseAsset::loadDefaultSettings()
-{
-	IDefaultSettings* ds = getInterface<IDefaultSettings>();
-	if (ds != nullptr && hasSettings() && ds->hasDefaultSettings(className, id))
-	{
-		std::string xml = ds->loadDefaultSettings(className, id);
-
-		//XX this->settings = settingsFromXml(xml);
-		return true;
-
-	}
-	return false;
-}
-
-/// <summary>
-/// Loads the settings.
-/// </summary>
-///
-/// <param name="fileName"> Filename of the file. </param>
-///
-/// <returns>
-/// True if it succeeds, false if it fails.
-/// </returns>
-bool BaseAsset::loadSettings(std::string fileName)
-{
-	IDataStorage* ds = getInterface<IDataStorage>();
-	if (ds != nullptr && hasSettings() && ds->Exists(fileName))
-	{
-		std::string xml = ds->Load(fileName);
-
-		//XX this->settings = settingsFromXml(xml);
-		return true;
-	}
-	return false;
-}
-
-/// <summary>
-/// Saves a default settings.
-/// </summary>
-///
-/// <param name="force"> True to force. </param>
-///
-/// <returns>
-/// True if it succeeds, false if it fails.
-/// </returns>
-bool BaseAsset::saveDefaultSettings(bool force)
-{
-	IDefaultSettings* ds = getInterface<IDefaultSettings>();
-	if (ds != nullptr && hasSettings() && (force || ds->hasDefaultSettings(className, id)))
-	{
-		//XX ds->saveDefaultSettings(className, id, settingsToXml());
-		return true;
-	}
-	return false;
-}
-
-/// <summary>
-/// Saves the settings.
-/// </summary>
-///
-/// <param name="fileName"> Filename of the file. </param>
-///
-/// <returns>
-/// True if it succeeds, false if it fails.
-/// </returns>
-bool BaseAsset::saveSettings(std::string fileName)
-{
-	IDataStorage* ds = getInterface<IDataStorage>();
-	if (ds != nullptr && hasSettings())
-	{
-		//xxx ds->Save(fileName, settingsToXml());
-		return true;
-	}
-	return false;
-}
-
-/// <summary>
-/// Settings from XML.
-/// </summary>
-///
-/// <param name="xml"> The XML. </param>
-///
-/// <returns>
-/// Null if it fails, else a pointer to the ISettings.
-/// </returns>
-ISettings* BaseAsset::settingsFromXml(std::string xml)
-{
-	ISettings* settings = new ISettings();
-	std::stringstream stream;
-	stream << xml;
-
-	cereal::XMLInputArchive archive(stream);
-
-	//XX archive(settings);
-
-	// archive and stream closed when destructors are called
-
-	return settings;
 }

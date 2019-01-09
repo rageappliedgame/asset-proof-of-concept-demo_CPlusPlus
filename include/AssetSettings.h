@@ -31,25 +31,72 @@
 
 namespace rage
 {
+	/// <summary>
+	/// Asset settings.
+	/// </summary>
 	class AssetSettings : public BaseSettings
 	{
 	public:
+
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		AssetSettings() {};
+
+		/// <summary>
+		/// Destructor.
+		/// </summary>
 		virtual ~AssetSettings() {};
 
+		/// <summary>
+		/// Gets test property.
+		/// </summary>
+		///
+		/// <returns>
+		/// The test property.
+		/// </returns>
 		std::string getTestProperty();
+
+		/// <summary>
+		/// Sets test property.
+		/// </summary>
+		///
+		/// <param name="testProperty"> The test property. </param>
 		void setTestProperty(std::string testProperty);
 
+		/// <summary>
+		/// Gets test list.
+		/// </summary>
+		///
+		/// <returns>
+		/// The test list.
+		/// </returns>
 		std::vector<std::string> getTestList();
+
+		/// <summary>
+		/// Sets test list.
+		/// </summary>
+		///
+		/// <param name="testList"> List of tests. </param>
 		void setTestList(std::vector<std::string> testList);
 
-		void setSettings(AssetSettings* settings) {
-			rage::BaseSettings::setSettings(this);
-		};
+		/// <summary>
+		/// Query if this object is test read only.
+		/// </summary>
+		///
+		/// <returns>
+		/// True if test read only, false if not.
+		/// </returns>
 		bool isTestReadOnly();
 	private:
 		friend class cereal::access;
 
+		/// <summary>
+		/// Serialize this object to the given stream.
+		/// </summary>
+		///
+		/// <typeparam name="Archive"> Type of the archive. </typeparam>
+		/// <param name="ar"> [in,out] The archive. </param>
 		template <class Archive>
 		void serialize(Archive & ar)
 		{
@@ -59,8 +106,19 @@ namespace rage
 			//ar(testProperty, testReadOnly, testList);
 		}
 
+		/// <summary>
+		/// The test property.
+		/// </summary>
 		std::string testProperty = "Hello Default World";
+
+		/// <summary>
+		/// True to test read only.
+		/// </summary>
 		bool testReadOnly = true;
+
+		/// <summary>
+		/// List of tests.
+		/// </summary>
 		std::vector<std::string> testList = { "Hello", "List", "World" };
 	};
 }

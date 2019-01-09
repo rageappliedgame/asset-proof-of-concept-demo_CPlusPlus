@@ -20,15 +20,15 @@
 
 #include <IAsset.h>
 #include <RageVersionInfo.h>
+#include <IDefaultSettings.h>
 #include <IDataArchive.h>
 #include <IDataStorage.h>
 #include <AssetManager.h>
 #include <BaseSettings.h>
 
-
-// namespace: rage
-//
-// summary:	.
+ // namespace: rage
+ //
+ // summary:	.
 namespace rage
 {
 	/// <summary>
@@ -113,7 +113,8 @@ namespace rage
 		/// <returns>
 		/// Null if it fails, else the settings.
 		/// </returns>
-		template<class Settings> Settings* getSettings() {
+		template<class Settings>
+		Settings* getSettings() {
 			if (this->settings != nullptr && dynamic_cast<Settings*>(this->settings))
 			{
 				return dynamic_cast<Settings*>(this->settings);
@@ -122,11 +123,11 @@ namespace rage
 		}
 
 		/// <summary>
-		/// template <class T>
+		/// template &lt;class T&gt;
 		/// </summary>
 		///
 		/// <param name="settings"> [in,out] If non-null, options for controlling the operation. </param>
-		void setSettings(ISettings* settings);
+		virtual void setSettings(ISettings* settings);
 
 		/// <summary>
 		/// Loads default settings.
@@ -135,7 +136,20 @@ namespace rage
 		/// <returns>
 		/// True if it succeeds, false if it fails.
 		/// </returns>
-		bool loadDefaultSettings();
+		template<class Settings>
+		bool loadDefaultSettings() {
+			IDefaultSettings* ds = getInterface<IDefaultSettings>();
+			if (ds != nullptr && hasSettings() && ds->hasDefaultSettings(className, id))
+			{
+				std::string xml = ds->loadDefaultSettings(className, id);
+
+				this->settings = settingsFromXml<Settings>(xml);
+
+				return true;
+
+			}
+			return false;
+		}
 
 		/// <summary>
 		/// Loads the settings.
@@ -146,7 +160,21 @@ namespace rage
 		/// <returns>
 		/// True if it succeeds, false if it fails.
 		/// </returns>
-		bool loadSettings(std::string fileName);
+		template<class Settings>
+		bool loadSettings(std::string fileName)
+		{
+			IDataStorage* ds = getInterface<IDataStorage>();
+			if (ds != nullptr && hasSettings() && ds->Exists(fileName))
+			{
+				std::string xml = ds->Load(fileName);
+
+				this->settings = settingsFromXml<Settings>(xml);
+
+				return true;
+			}
+			return false;
+		}
+
 
 		/// <summary>
 		/// template <class T>
@@ -157,7 +185,19 @@ namespace rage
 		/// <returns>
 		/// True if it succeeds, false if it fails.
 		/// </returns>
-		bool saveDefaultSettings(bool force);
+		template <class Settings>
+		bool saveDefaultSettings(bool force)
+		{
+			IDefaultSettings* ds = getInterface<IDefaultSettings>();
+			if (ds != nullptr && hasSettings() && force)
+			{
+				ds->saveDefaultSettings(className, id, settingsToXml<Settings>());
+
+				return true;
+			}
+			return false;
+		}
+
 
 		/// <summary>
 		/// template <class T>
@@ -168,50 +208,19 @@ namespace rage
 		/// <returns>
 		/// True if it succeeds, false if it fails.
 		/// </returns>
-		bool saveSettings(std::string fileName);
-
-		/// <summary>
-		/// Settings from XML.
-		/// </summary>
-		///
-		/// <param name="xml"> The XML. </param>
-		///
-		/// <returns>
-		/// Null if it fails, else a pointer to the ISettings.
-		/// </returns>
-		ISettings* settingsFromXml(std::string xml);
-
-		/// <summary>
-		/// Settings to XML.
-		/// </summary>
-		///
-		/// <returns>
-		/// A std::string.
-		/// </returns>
 		template <class Settings>
-		std::string settingsToXml() {
-			std::unique_ptr<Settings> ptr = std::make_unique<Settings>(*getSettings<Settings>());
-
-			std::stringstream stream;
-
-			/// <summary>
-			/// See http://uscilab.github.io/cereal/polymorphism.html
-			/// 
-			/// Note: cereal populates the stream at the end of the block (just after the archive call it's still empty).
-			/// </summary>
+		bool saveSettings(std::string fileName)
+		{
+			IDataStorage* ds = getInterface<IDataStorage>();
+			if (ds != nullptr && hasSettings())
 			{
-				cereal::XMLOutputArchive archive(stream); // cereal::XMLOutputArchive::Options::Default());
+				ds->Save(fileName, settingsToXml<Settings>());
 
-				archive(cereal::make_nvp("AssetSettings", ptr));
+				return true;
 			}
-
-			/// <summary>
-			/// A std::string to process.
-			/// </summary>
-			std::string x = stream.str();
-
-			return stream.str();
+			return false;
 		}
+
 
 		/// <summary>
 		/// Gets the bridge.
@@ -228,9 +237,65 @@ namespace rage
 		///
 		/// <param name="bridge"> [in,out] If non-null, the bridge. </param>
 		void setBridge(IBridge* bridge);
-	protected:
-		template<class Interface>
 
+		/// <summary>
+		/// Settings to XML.
+		/// </summary>
+		/// <remarks>This method is public for debugging purposes. 
+		/// <returns>
+		/// A std::string.
+		/// </returns>
+		template<class Settings>
+		std::string settingsToXml()
+		{
+			std::unique_ptr<Settings> ptr = std::make_unique<Settings>(*getSettings<Settings>());
+
+			std::stringstream stream;
+
+			/// <summary>
+			/// See http://uscilab.github.io/cereal/polymorphism.html
+			/// 
+			/// Note: cereal populates the stream at the end of the block (just after the archive call it's still empty).
+			/// </summary>
+			{
+				cereal::XMLOutputArchive oarchive(stream); // cereal::XMLOutputArchive::Options::Default());
+
+				oarchive(cereal::make_nvp("AssetSettings", ptr));
+			} // archive goes out of scope, ensuring all contents are flushed into the stream.
+
+			/// <summary>
+			/// A std::string to process.
+			/// </summary>
+			std::string x = stream.str();
+
+			return stream.str();
+		}
+
+		/// <summary>
+		/// Settings from XML.
+		/// </summary>
+		///
+		/// <param name="xml"> The XML. </param>
+		///
+		/// <returns>
+		/// Null if it fails, else a pointer to the ISettings.
+		/// </returns>
+		template<class Settings>
+		Settings* settingsFromXml(std::string xml)
+		{
+			Settings* settings = new Settings();
+			std::stringstream stream;
+			stream << xml;
+
+			{
+				cereal::XMLInputArchive iarchive(stream);
+
+				//iarchive(settings);
+			}
+
+			return settings;
+		}
+	protected:
 		/// <summary>
 		/// Gets the interface.
 		/// </summary>
@@ -238,18 +303,21 @@ namespace rage
 		/// <returns>
 		/// Null if it fails, else the interface.
 		/// </returns>
+		template<class Interface>
 		Interface* getInterface()
 		{
-			if (this->bridge != nullptr && dynamic_cast<Interface*>(this->bridge))
-			{
-				return dynamic_cast<Interface*>(this->bridge);
+			if (this->bridge != nullptr) {
+				if (Interface* icast = dynamic_cast<Interface*>(this->bridge))
+				{
+					return icast;
+				}
 			}
-			else if (AssetManager::getInstance().getBridge() != nullptr
-				&& dynamic_cast<Interface*>(AssetManager::getInstance().getBridge()))
-			{
-				return dynamic_cast<Interface*>(AssetManager::getInstance().getBridge());
+			else if (AssetManager::getInstance().getBridge() != nullptr) {
+				if (Interface* icast = dynamic_cast<Interface*>(AssetManager::getInstance().getBridge()))
+				{
+					return icast;
+				}
 			}
-
 			return nullptr;
 		}
 	private:

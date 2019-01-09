@@ -37,9 +37,12 @@ Asset::~Asset()
 	delete settings;
 }
 
-void Asset::setSettings(AssetSettings *settings)
+void Asset::setSettings(ISettings *settings)
 {
 	this->settings = dynamic_cast<AssetSettings*>(settings);
+	//https://stackoverflow.com/questions/18198314/what-is-the-override-keyword-in-c-used-for
+#pragma message ("VEG Inheritance (dirty) workaround.")
+	BaseAsset::setSettings(this->settings);
 }
 
 void Asset::doArchive()

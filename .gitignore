@@ -11,3 +11,5 @@
 /.vs
 /x64/Debug
 /CppProperties.json
+/ArchiveStorage
+/StorageDir

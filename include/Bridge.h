@@ -28,12 +28,12 @@
 
 #pragma message ("VEG Bridge.h is part of the demo app.")
 
-//#include <IDataStorage.h>
-//#include <IDataArchive.h>
-//#include <IDefaultSettings.h>
+#include <IBridge.h>
 
 #include <ILog.h>
-#include <IBridge.h>
+#include <IDataStorage.h>
+#include <IDataArchive.h>
+#include <IDefaultSettings.h>
 
 using namespace std;
 
@@ -41,30 +41,137 @@ namespace fs = std::experimental::filesystem;
 
 namespace rage
 {
-	class Bridge : public IBridge, ILog
+	class Bridge : public IBridge, public ILog, public IDataStorage, public IDataArchive, public IDefaultSettings
 	{
 	public:
 		Bridge();
 		virtual ~Bridge() {};
 
-		//bool Delete(const std::string& name);
-		//bool Exists(const std::string& name);
-		//std::vector<std::string> Files();
-		//std::string Load(const std::string& name);
-		//void Save(const std::string& name, const std::string& data);
+		/// <summary>
+		/// Deletes the given name.
+		/// </summary>
+		///
+		/// <param name="name"> The name to delete. </param>
+		///
+		/// <returns>
+		/// True if it succeeds, false if it fails.
+		/// </returns>
+		bool Delete(const std::string& name);
 
+		/// <summary>
+		/// Determine if 'name' exists.
+		/// </summary>
+		///
+		/// <param name="name"> The name. </param>
+		///
+		/// <returns>
+		/// True if it succeeds, false if it fails.
+		/// </returns>
+		bool Exists(const std::string& name);
+
+		/// <summary>
+		/// Gets the files.
+		/// </summary>
+		///
+		/// <returns>
+		/// A std::vector&lt;std::string&gt;
+		/// </returns>
+		std::vector<std::string> Files();
+
+		/// <summary>
+		/// Loads the given name.
+		/// </summary>
+		///
+		/// <param name="name"> The name to load. </param>
+		///
+		/// <returns>
+		/// A std::string.
+		/// </returns>
+		std::string Load(const std::string& name);
+
+		/// <summary>
+		/// Saves.
+		/// </summary>
+		///
+		/// <param name="name"> The name. </param>
+		/// <param name="data"> The data. </param>
+		void Save(const std::string& name, const std::string& data);
+
+		/// <summary>
+		/// Logs.
+		/// </summary>
+		///
+		/// <param name="severity"> The severity. </param>
+		/// <param name="msg">	    The message. </param>
 		void Log(Severity severity, const std::string& msg);
 
-		//bool Archive(const std::string& name);
+		/// <summary>
+		/// Archives the given name.
+		/// </summary>
+		///
+		/// <param name="name"> The name. </param>
+		///
+		/// <returns>
+		/// True if it succeeds, false if it fails.
+		/// </returns>
+		bool Archive(const std::string& name);
 
-		//bool hasDefaultSettings(const std::string& clazz, const std::string& id);
-		//std::string loadDefaultSettings(const std::string& clazz, const std::string& id);
-		//void saveDefaultSettings(const std::string& clazz, const std::string& id, const std::string& fileData);
+		/// <summary>
+		/// Query if 'clazz' has default settings.
+		/// </summary>
+		///
+		/// <param name="clazz"> The clazz. </param>
+		/// <param name="id">    The identifier. </param>
+		///
+		/// <returns>
+		/// True if default settings, false if not.
+		/// </returns>
+		bool hasDefaultSettings(const std::string& clazz, const std::string& id);
+
+		/// <summary>
+		/// Loads default settings.
+		/// </summary>
+		///
+		/// <param name="clazz"> The clazz. </param>
+		/// <param name="id">    The identifier. </param>
+		///
+		/// <returns>
+		/// The default settings.
+		/// </returns>
+		std::string loadDefaultSettings(const std::string& clazz, const std::string& id);
+
+		/// <summary>
+		/// Saves a default settings.
+		/// </summary>
+		///
+		/// <param name="clazz">    The clazz. </param>
+		/// <param name="id">	    The identifier. </param>
+		/// <param name="fileData"> Information describing the file. </param>
+		void saveDefaultSettings(const std::string& clazz, const std::string& id, const std::string& fileData);
 	private:
-		//fs::path storageDir{ (boost::format(".%1%%2%") % PATH_SEPARATOR % "DataStorage").str() };
-		// 
-		fs::path storageDir;// : fs::path(".");// = "./DataStorage";
-		fs::path archiveDir;// = "./ArchiveStorage";
+		fs::path baseDir = "";
+
+		/// <summary>
+		/// Examples: fs::path("."); or "." + PATH_SEPARATOR + "DataStorage";
+		/// </summary>
+		fs::path storageDir = baseDir /= "DataStorage";
+
+		/// <summary>
+		/// Examples: fs::path("."); or "." + PATH_SEPARATOR + "ArchiveStorage";
+		/// </summary>
+		fs::path archiveDir = baseDir /= "ArchiveStorage";
+
+		/// <summary>
+		/// Derive asset name.
+		/// </summary>
+		///
+		/// <param name="className"> Name of the class. </param>
+		/// <param name="id">		 The identifier. </param>
+		///
+		/// <returns>
+		/// A std::string.
+		/// </returns>
+		std::string deriveAssetName(std::string className, std::string id);
 	};
 }
 
