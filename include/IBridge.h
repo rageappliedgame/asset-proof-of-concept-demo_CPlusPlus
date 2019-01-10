@@ -19,9 +19,9 @@
 #define IBRIDGE_H
 
 
-// namespace: rage
-//
-// summary:	.
+ // namespace: rage
+ //
+ // summary:	.
 namespace rage
 {
 	/// <summary>

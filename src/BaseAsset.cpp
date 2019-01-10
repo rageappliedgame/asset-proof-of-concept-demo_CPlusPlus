@@ -58,8 +58,10 @@ BaseAsset::~BaseAsset()
 {
 	AssetManager::getInstance().unregisterAssetInstance(this->getId());
 	
-	delete settings;
-	
+	// TODO veg settings is sometimes an invalid pointer which raises an exception on delete.
+	//delete settings;
+	//settings = nullptr;
+
 	delete versionInfo;
 }
 

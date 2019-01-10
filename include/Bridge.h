@@ -26,8 +26,6 @@
 
 #include <experimental/filesystem>
 
-#pragma message ("VEG Bridge.h is part of the demo app.")
-
 #include <IBridge.h>
 
 #include <ILog.h>
@@ -39,12 +37,25 @@ using namespace std;
 
 namespace fs = std::experimental::filesystem;
 
+#pragma message ("VEG Bridge.h is part of the demo app.")
+
 namespace rage
 {
+	/// <summary>
+	/// A bridge.
+	/// </summary>
 	class Bridge : public IBridge, public ILog, public IDataStorage, public IDataArchive, public IDefaultSettings
 	{
 	public:
+
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		Bridge();
+
+		/// <summary>
+		/// Destructor.
+		/// </summary>
 		virtual ~Bridge() {};
 
 		/// <summary>
@@ -149,17 +160,21 @@ namespace rage
 		/// <param name="fileData"> Information describing the file. </param>
 		void saveDefaultSettings(const std::string& clazz, const std::string& id, const std::string& fileData);
 	private:
-		fs::path baseDir = "";
+
+		/// <summary>
+		/// The base dir (current directory).
+		/// </summary>
+		fs::path baseDir = ".";
 
 		/// <summary>
 		/// Examples: fs::path("."); or "." + PATH_SEPARATOR + "DataStorage";
 		/// </summary>
-		fs::path storageDir = baseDir /= "DataStorage";
+		fs::path storageDir = baseDir / "DataStorage";
 
 		/// <summary>
 		/// Examples: fs::path("."); or "." + PATH_SEPARATOR + "ArchiveStorage";
 		/// </summary>
-		fs::path archiveDir = baseDir /= "ArchiveStorage";
+		fs::path archiveDir = baseDir / "ArchiveStorage";
 
 		/// <summary>
 		/// Derive asset name.

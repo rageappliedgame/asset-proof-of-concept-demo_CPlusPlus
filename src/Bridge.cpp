@@ -29,19 +29,20 @@
 
 #include <cereal/archives/xml.hpp>
 
-#pragma message ("VEG Bridge.cpp is part of the demo app.")
-
 namespace fs = std::experimental::filesystem;
 
 using namespace std;
 using namespace rage;
 
+#pragma message ("VEG Bridge.cpp is part of the demo app.")
+
 /// <summary>
 /// Default constructor.
 /// </summary>
 Bridge::Bridge()
-	:storageDir("./StorageDir"), archiveDir("./ArchiveStorage")
 {
+	//TODO Still not ok, values where taken from 'Bridge::Bridge()storageDir("./StorageDir"), archiveDir("./ArchiveStorage")' instead of Bridge.h (missing the leading .\)
+
 	if (!fs::is_directory(storageDir))
 	{
 		fs::create_directory(storageDir);
@@ -50,7 +51,6 @@ Bridge::Bridge()
 	if (!fs::is_directory(archiveDir))
 	{
 		fs::create_directory(archiveDir);
-
 	}
 }
 

@@ -20,6 +20,8 @@
 
 using namespace rage;
 
+#pragma message ("VEG AssetSettings.cpp is part of the demo app.")
+
 /// <summary>
 /// Gets test property.
 /// </summary>

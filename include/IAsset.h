@@ -26,17 +26,74 @@
 
 namespace rage
 {
-class IAsset
-{
-public:
-    virtual std::string getClassName() = 0;
-    virtual std::string getId() = 0;
-    virtual std::map<std::string, std::string> getDependencies() = 0;
-    virtual std::string getMaturity() = 0;
-    virtual std::string getVersion() = 0;
-    virtual rage::IBridge* getBridge() = 0;
-    virtual void setBridge(rage::IBridge* bridge) = 0;
-};
+	/// <summary>
+	/// An asset interface (used for type-safety).
+	/// </summary>
+	class IAsset
+	{
+	public:
+
+		/// <summary>
+		/// Gets class name.
+		/// </summary>
+		///
+		/// <returns>
+		/// The class name.
+		/// </returns>
+		virtual std::string getClassName() = 0;
+
+		/// <summary>
+		/// Gets the identifier.
+		/// </summary>
+		///
+		/// <returns>
+		/// The identifier.
+		/// </returns>
+		virtual std::string getId() = 0;
+
+		/// <summary>
+		/// Gets the dependencies.
+		/// </summary>
+		///
+		/// <returns>
+		/// The dependencies.
+		/// </returns>
+		virtual std::map<std::string, std::string> getDependencies() = 0;
+
+		/// <summary>
+		/// Gets the maturity.
+		/// </summary>
+		///
+		/// <returns>
+		/// The maturity.
+		/// </returns>
+		virtual std::string getMaturity() = 0;
+
+		/// <summary>
+		/// Gets the version.
+		/// </summary>
+		///
+		/// <returns>
+		/// The version.
+		/// </returns>
+		virtual std::string getVersion() = 0;
+
+		/// <summary>
+		/// Gets the bridge.
+		/// </summary>
+		///
+		/// <returns>
+		/// Null if it fails, else the bridge.
+		/// </returns>
+		virtual rage::IBridge* getBridge() = 0;
+
+		/// <summary>
+		/// Sets a bridge.
+		/// </summary>
+		///
+		/// <param name="bridge"> [in,out] If non-null, the bridge. </param>
+		virtual void setBridge(rage::IBridge* bridge) = 0;
+	};
 }
 
 #endif // IASSET_H

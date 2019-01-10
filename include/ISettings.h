@@ -18,7 +18,7 @@
 #ifndef ISETTINGS_H
 #define ISETTINGS_H
 
-// Include the polymorphic serialization and registration mechanisms
+ // Include the polymorphic serialization and registration mechanisms
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/archives/xml.hpp>
 

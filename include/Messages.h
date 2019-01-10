@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef PUBSUB_H
+#ifndef MESSAGES_H
 #define MESSAGES_H
 
 #include <IAsset.h>
@@ -188,4 +188,4 @@ namespace rage
 	};
 }
 
-#endif // PUBSUB_H
+#endif // MESSAGES_H

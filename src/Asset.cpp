@@ -25,20 +25,29 @@ using namespace rage;
 
 #pragma message ("VEG Asset.cpp is part of the demo app.")
 
+/// <summary>
+/// Default constructor.
+/// </summary>
 Asset::Asset() : BaseAsset("Asset")
 {
 	AssetSettings* settings = new AssetSettings();
-	
+
 	settings->setTestProperty(settings->getTestProperty() + " test");
 
 	this->setSettings(settings);
 }
 
+/// <summary>
+/// Destructor.
+/// </summary>
 Asset::~Asset()
 {
 	//
 }
 
+/// <summary>
+/// Executes the archive operation.
+/// </summary>
 void Asset::doArchive()
 {
 	IDataArchive* ds = getInterface<IDataArchive>();
@@ -56,6 +65,13 @@ void Asset::doArchive()
 	}
 }
 
+/// <summary>
+/// Executes the list operation.
+/// </summary>
+///
+/// <returns>
+/// A std::vector&lt;std::string&gt;
+/// </returns>
 std::vector<std::string> Asset::doList()
 {
 	IDataStorage* ds = getInterface<IDataStorage>();
@@ -74,6 +90,15 @@ std::vector<std::string> Asset::doList()
 	}
 }
 
+/// <summary>
+/// Executes the load operation.
+/// </summary>
+///
+/// <param name="name"> The name. </param>
+///
+/// <returns>
+/// A std::string.
+/// </returns>
 std::string Asset::doLoad(std::string name)
 {
 	IDataStorage* ds = getInterface<IDataStorage>();
@@ -95,6 +120,9 @@ std::string Asset::doLoad(std::string name)
 	return nullptr;
 }
 
+/// <summary>
+/// Executes the remove operation.
+/// </summary>
 void Asset::doRemove()
 {
 	IDataStorage* ds = getInterface<IDataStorage>();
@@ -112,6 +140,9 @@ void Asset::doRemove()
 	}
 }
 
+/// <summary>
+/// Executes the store operation.
+/// </summary>
 void Asset::doStore()
 {
 	IDataStorage* ds = getInterface<IDataStorage>();
@@ -127,6 +158,11 @@ void Asset::doStore()
 	}
 }
 
+/// <summary>
+/// Public method.
+/// </summary>
+///
+/// <param name="message"> The message. </param>
 void Asset::publicMethod(string message)
 {
 	list<IAsset*> loggers = AssetManager::getInstance().findAssetsByClass("Logger");

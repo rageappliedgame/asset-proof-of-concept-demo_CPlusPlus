@@ -19,9 +19,9 @@
 #define ILOGGER_H
 
 
-// namespace: rage
-//
-// summary:	.
+ // namespace: rage
+ //
+ // summary:	.
 namespace rage
 {
 #include <stdlib.h> 

@@ -20,6 +20,8 @@
 
 #include <BaseAsset.h>
 
+#pragma message ("VEG Logger.h is part of the demo app.")
+
 namespace rage
 {
 	class Logger : public BaseAsset
