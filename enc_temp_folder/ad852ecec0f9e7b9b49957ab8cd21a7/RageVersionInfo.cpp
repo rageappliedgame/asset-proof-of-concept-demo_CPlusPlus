@@ -238,11 +238,6 @@ void RageVersionInfo::setBuild(int build)
 /// Loads version information.
 /// </summary>
 ///
-/// <remarks>
-/// When debugging in VS2017 the xml file is loaded from the current directory (and not the
-/// output directory)!
-/// </remarks>
-///
 /// <exception cref="1"> Thrown when a 1 error condition occurs. </exception>
 ///
 /// <param name="strXMLPath"> Full pathname of the XML file. </param>

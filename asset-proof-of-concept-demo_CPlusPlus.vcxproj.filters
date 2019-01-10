@@ -18,25 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Asset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AssetSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\BaseAsset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bridge.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DialogueAsset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\RageVersionInfo.cpp">
@@ -54,6 +39,21 @@
     <ClCompile Include="src\Messages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Example\src\Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Example\src\Bridge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Example\src\DialogueAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Example\src\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Example\src\AssetSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Xsd Include="VersionAndDependencies.xsd">
@@ -61,13 +61,7 @@
     </Xsd>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Asset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\AssetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AssetSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\BaseAsset.h">
@@ -76,13 +70,7 @@
     <ClInclude Include="include\BaseSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Bridge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Callback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\DialogueAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\IAsset.h">
@@ -101,9 +89,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ISettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\RageVersionInfo.h">
@@ -133,14 +118,31 @@
     <ClInclude Include="include\Messages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Example\include\Asset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Example\include\AssetSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Example\include\DialogueAsset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Example\include\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Example\include\Bridge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Logger.VersionAndDependencies.xml" />
-    <CopyFileToFolders Include="DialogueAsset.VersionAndDependencies.xml" />
-    <CopyFileToFolders Include="Asset.VersionAndDependencies.xml" />
     <CopyFileToFolders Include="script.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\soap.nsmap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Logger.VersionAndDependencies.xml" />
+    <Xml Include="DialogueAsset.VersionAndDependencies.xml" />
+    <Xml Include="Asset.VersionAndDependencies.xml" />
   </ItemGroup>
 </Project>

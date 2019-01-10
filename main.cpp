@@ -15,15 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+//! Include AssetManager and Base classes.
 #include <AssetManager.h>
-#include <Asset.h>
-#include <Logger.h>
-#include <DialogueAsset.h>
 #include <Messages.h>
 #include <Bridge.h>
 #include <RageVersionInfo.h>
 #include <BaseAsset.h>
+
+
+//! Include Example Asset used for testing purposes.
+#include <Asset.h>
+#include <Logger.h>
+#include <DialogueAsset.h>
 #include <AssetSettings.h>
+
 #include <iostream>
 #include "main.h"
 

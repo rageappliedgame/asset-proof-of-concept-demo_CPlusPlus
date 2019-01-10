@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "AssetSettings.h"
+#include <AssetSettings.h>
 
 using namespace rage;
 

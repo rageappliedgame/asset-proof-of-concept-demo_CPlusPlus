@@ -70,7 +70,7 @@
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\Include;$(ProjectDir)\Example\Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -104,13 +104,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\Asset.cpp" />
+    <ClCompile Include="Example\src\Asset.cpp" />
     <ClCompile Include="src\AssetManager.cpp" />
-    <ClCompile Include="src\AssetSettings.cpp" />
+    <ClCompile Include="Example\src\AssetSettings.cpp" />
     <ClCompile Include="src\BaseAsset.cpp" />
-    <ClCompile Include="src\Bridge.cpp" />
-    <ClCompile Include="src\DialogueAsset.cpp" />
-    <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="Example\src\Bridge.cpp" />
+    <ClCompile Include="Example\src\DialogueAsset.cpp" />
+    <ClCompile Include="Example\src\Logger.cpp" />
     <ClCompile Include="src\Messages.cpp" />
     <ClCompile Include="src\RageVersionInfo.cpp" />
     <ClCompile Include="src\stdsoap2.cpp" />
@@ -121,14 +121,14 @@
     <Xsd Include="VersionAndDependencies.xsd" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Asset.h" />
+    <ClInclude Include="Example\include\Asset.h" />
     <ClInclude Include="include\AssetManager.h" />
-    <ClInclude Include="include\AssetSettings.h" />
+    <ClInclude Include="Example\include\AssetSettings.h" />
     <ClInclude Include="include\BaseAsset.h" />
     <ClInclude Include="include\BaseSettings.h" />
-    <ClInclude Include="include\Bridge.h" />
+    <ClInclude Include="Example\include\Bridge.h" />
     <ClInclude Include="include\Callback.h" />
-    <ClInclude Include="include\DialogueAsset.h" />
+    <ClInclude Include="Example\include\DialogueAsset.h" />
     <ClInclude Include="include\IAsset.h" />
     <ClInclude Include="include\IBridge.h" />
     <ClInclude Include="include\IDataArchive.h" />
@@ -136,7 +136,7 @@
     <ClInclude Include="include\IDefaultSettings.h" />
     <ClInclude Include="include\ILog.h" />
     <ClInclude Include="include\ISettings.h" />
-    <ClInclude Include="include\Logger.h" />
+    <ClInclude Include="Example\include\Logger.h" />
     <ClInclude Include="include\Messages.h" />
     <ClInclude Include="include\RageVersionInfo.h" />
     <ClInclude Include="include\stdsoap2.h" />
@@ -147,15 +147,15 @@
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Asset.VersionAndDependencies.xml">
+    <Xml Include="Asset.VersionAndDependencies.xml">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="DialogueAsset.VersionAndDependencies.xml">
+    </Xml>
+    <Xml Include="DialogueAsset.VersionAndDependencies.xml">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="Logger.VersionAndDependencies.xml">
+    </Xml>
+    <Xml Include="Logger.VersionAndDependencies.xml">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </CopyFileToFolders>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="script.txt">
