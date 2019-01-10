@@ -147,18 +147,18 @@
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Asset.VersionAndDependencies.xml">
+    <CopyFileToFolders Include="Example\Asset.VersionAndDependencies.xml">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </Xml>
-    <Xml Include="DialogueAsset.VersionAndDependencies.xml">
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Example\DialogueAsset.VersionAndDependencies.xml">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </Xml>
-    <Xml Include="Logger.VersionAndDependencies.xml">
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Example\Logger.VersionAndDependencies.xml">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </Xml>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="script.txt">
+    <CopyFileToFolders Include="Example\script.txt">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
     </CopyFileToFolders>
   </ItemGroup>

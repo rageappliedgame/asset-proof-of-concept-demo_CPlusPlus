@@ -135,14 +135,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="script.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="include\soap.nsmap" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Logger.VersionAndDependencies.xml" />
-    <Xml Include="DialogueAsset.VersionAndDependencies.xml" />
-    <Xml Include="Asset.VersionAndDependencies.xml" />
+    <CopyFileToFolders Include="Example\Asset.VersionAndDependencies.xml" />
+    <CopyFileToFolders Include="Example\DialogueAsset.VersionAndDependencies.xml" />
+    <CopyFileToFolders Include="Example\Logger.VersionAndDependencies.xml" />
+    <CopyFileToFolders Include="Example\script.txt" />
   </ItemGroup>
 </Project>
