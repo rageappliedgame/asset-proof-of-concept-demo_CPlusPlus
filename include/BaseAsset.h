@@ -123,11 +123,11 @@ namespace rage
 		}
 
 		/// <summary>
-		/// template &lt;class T&gt;
+		/// Assign Settings.
 		/// </summary>
 		///
 		/// <param name="settings"> [in,out] If non-null, options for controlling the operation. </param>
-		virtual void setSettings(ISettings* settings);
+		void setSettings(ISettings* settings);
 
 		/// <summary>
 		/// Loads default settings.
@@ -138,12 +138,12 @@ namespace rage
 		/// </returns>
 		template<class Settings>
 		bool loadDefaultSettings() {
-			IDefaultSettings* ds = getInterface<IDefaultSettings>();
-			if (ds != nullptr && hasSettings() && ds->hasDefaultSettings(className, id))
+			IDefaultSettings* ds = this->getInterface<IDefaultSettings>();
+			if (ds != nullptr && this->hasSettings() && ds->hasDefaultSettings(className, id))
 			{
 				std::string xml = ds->loadDefaultSettings(className, id);
 
-				this->settings = settingsFromXml<Settings>(xml);
+				this->settings = this->settingsFromXml<Settings>(xml);
 
 				return true;
 
@@ -163,23 +163,25 @@ namespace rage
 		template<class Settings>
 		bool loadSettings(std::string fileName)
 		{
-			IDataStorage* ds = getInterface<IDataStorage>();
-			if (ds != nullptr && hasSettings() && ds->Exists(fileName))
+			IDataStorage* ds = this->getInterface<IDataStorage>();
+			if (ds != nullptr && this->hasSettings() && ds->Exists(fileName))
 			{
 				std::string xml = ds->Load(fileName);
 
-				this->settings = settingsFromXml<Settings>(xml);
+				this->settings = this->settingsFromXml<Settings>(xml);
 
 				return true;
 			}
 			return false;
 		}
 
-
 		/// <summary>
-		/// template <class T>
+		/// Save Default Settings.
+		/// 
+		/// Note: This method is only meant to be used during development (use force=true).
 		/// </summary>
 		///
+		/// <typeparam name="Settings"> Type of the settings. </typeparam>
 		/// <param name="force"> True to force. </param>
 		///
 		/// <returns>
@@ -188,10 +190,10 @@ namespace rage
 		template <class Settings>
 		bool saveDefaultSettings(bool force)
 		{
-			IDefaultSettings* ds = getInterface<IDefaultSettings>();
-			if (ds != nullptr && hasSettings() && force)
+			IDefaultSettings* ds = this->getInterface<IDefaultSettings>();
+			if (ds != nullptr && this->hasSettings() && force)
 			{
-				ds->saveDefaultSettings(className, id, settingsToXml<Settings>());
+				ds->saveDefaultSettings(className, id, this->settingsToXml<Settings>());
 
 				return true;
 			}
@@ -200,7 +202,7 @@ namespace rage
 
 
 		/// <summary>
-		/// template <class T>
+		/// Save Settings
 		/// </summary>
 		///
 		/// <param name="fileName"> Filename of the file. </param>
@@ -211,10 +213,10 @@ namespace rage
 		template <class Settings>
 		bool saveSettings(std::string fileName)
 		{
-			IDataStorage* ds = getInterface<IDataStorage>();
-			if (ds != nullptr && hasSettings())
+			IDataStorage* ds = this->getInterface<IDataStorage>();
+			if (ds != nullptr && this->hasSettings())
 			{
-				ds->Save(fileName, settingsToXml<Settings>());
+				ds->Save(fileName, this->settingsToXml<Settings>());
 
 				return true;
 			}
@@ -248,7 +250,7 @@ namespace rage
 		template<class Settings>
 		std::string settingsToXml()
 		{
-			std::unique_ptr<Settings> ptr = std::make_unique<Settings>(*getSettings<Settings>());
+			std::unique_ptr<Settings> ptr = std::make_unique<Settings>(*this->getSettings<Settings>());
 
 			std::stringstream stream;
 

@@ -57,7 +57,9 @@ BaseAsset::BaseAsset(string className)
 BaseAsset::~BaseAsset()
 {
 	AssetManager::getInstance().unregisterAssetInstance(this->getId());
-
+	
+	delete settings;
+	
 	delete versionInfo;
 }
 

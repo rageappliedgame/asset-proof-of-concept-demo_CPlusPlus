@@ -27,22 +27,16 @@ using namespace rage;
 
 Asset::Asset() : BaseAsset("Asset")
 {
-	this->settings = new AssetSettings();
-	this->settings->setTestProperty(this->settings->getTestProperty() + " test");
-	BaseAsset::setSettings(this->settings);
+	AssetSettings* settings = new AssetSettings();
+	
+	settings->setTestProperty(settings->getTestProperty() + " test");
+
+	this->setSettings(settings);
 }
 
 Asset::~Asset()
 {
-	delete settings;
-}
-
-void Asset::setSettings(ISettings *settings)
-{
-	this->settings = dynamic_cast<AssetSettings*>(settings);
-	//https://stackoverflow.com/questions/18198314/what-is-the-override-keyword-in-c-used-for
-#pragma message ("VEG Inheritance (dirty) workaround.")
-	BaseAsset::setSettings(this->settings);
+	//
 }
 
 void Asset::doArchive()

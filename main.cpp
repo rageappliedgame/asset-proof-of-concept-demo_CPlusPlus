@@ -267,9 +267,9 @@ void test_08_Settings()
 		cout << "Could not Save Default Settings" << endl;
 	}
 
-	AssetSettings as;
-	as.setTestProperty("MODIFIED");
-	asset2->setSettings(&as);
+	AssetSettings as1;
+	as1.setTestProperty("MODIFIED_TEST_1");
+	asset2->setSettings(&as1);
 
 	//! Load App Default Settings if present (and Settings is not null).
 	if (asset2->loadDefaultSettings<AssetSettings>())
@@ -282,11 +282,25 @@ void test_08_Settings()
 	}
 
 	//! Try Saving an Asset with No Settings (null)
+	//! Note: We need to force the output because defaults are only meant for developers.
 	if (asset3->hasSettings())
 	{
-		asset3->saveDefaultSettings<AssetSettings>(false);
+		asset3->saveDefaultSettings<AssetSettings>(true);
 
 		//XX cout << asset3->settingsToXml() << endl;
+	}
+
+	AssetSettings as2;
+	as2.setTestProperty("MODIFIED_TEST_2");
+	asset3->setSettings(&as2);
+
+	//! Save modified default settings.
+	//! Note: We need to force the output because defaults are only meant for developers.
+	if (asset3->hasSettings())
+	{
+		asset3->saveDefaultSettings<AssetSettings>(true);
+
+		cout << asset3->settingsToXml<AssetSettings>() << endl;
 	}
 
 	//! Save Runtime Settings

@@ -37,7 +37,6 @@ namespace rage
 		Asset();
 		virtual ~Asset();
 		void publicMethod(std::string message);
-		void setSettings(ISettings *settings) override;
 		void doArchive();
 		std::vector<std::string> doList();
 		std::string doLoad(std::string name);
@@ -48,7 +47,6 @@ namespace rage
 		std::string fData = "Hello Storage World";
 		std::string fId1 = "Hello1.txt";
 		std::string fId2 = "Hello2.txt";
-		AssetSettings* settings = nullptr;
 	};
 }
 
